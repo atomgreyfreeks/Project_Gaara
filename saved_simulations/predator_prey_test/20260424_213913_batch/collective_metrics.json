@@ -1,0 +1,20 @@
+{
+  "scenario": "predator_prey_test",
+  "duration": 60,
+  "particle_count": 20,
+  "mothership_count": 1,
+  "threat_count": 1,
+  "first_threat_start_step": 4,
+  "breach_step": 40,
+  "breached": true,
+  "response_time_steps": 1,
+  "max_shield_coverage": 0.7,
+  "avg_shield_coverage_post_threat": 0.40350877192982454,
+  "avg_cohesion": 0.43432435876294606,
+  "final_intent_distribution": {
+    "protect": 18,
+    "explore": 0,
+    "retreat": 0,
+    "other": 2
+  }
+}

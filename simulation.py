@@ -26,7 +26,8 @@ logger = logging.getLogger(__name__)
 
 
 class Simulation:
-    def __init__(self, config_path: str, output_dir: str, scenario_override: Optional[str] = None):
+    def __init__(self, config_path: str, output_dir: str, scenario_override: Optional[str] = None,
+                 action_mode_override: Optional[str] = None):
         with open(config_path, "r", encoding="utf-8") as f:
             self.config = yaml.safe_load(f)
 
@@ -78,6 +79,12 @@ class Simulation:
         self.perception_radius = p_cfg["perception_radius"]
         self.communication_radius = p_cfg["communication_radius"]
         self.spawn_radius = p_cfg["spawn_radius"]
+
+        # Action mode — interpreter/executor split (target_point) or legacy menu modes
+        self.action_mode = (action_mode_override
+                            or self.scenario_cfg.get("action_mode")
+                            or self.config.get("action_mode", "target_point"))
+        logger.info(f"Action mode: {self.action_mode}")
 
         llm_cfg = self.config["llm"]
         self.llm_client = OllamaClient(
@@ -134,6 +141,7 @@ class Simulation:
                     perception_radius=self.perception_radius,
                     communication_radius=self.communication_radius,
                     half_space_size=self.half_space_size,
+                    action_mode=self.action_mode,
                 )
             )
         logger.info(f"Spawned {len(self.particles)} particles in orbit r={self.spawn_radius} "
@@ -255,6 +263,7 @@ class Simulation:
         cov_series = self.metrics["shield_coverage"]
         summary = {
             "scenario": self.scenario_name,
+            "action_mode": self.action_mode,
             "duration": self.duration,
             "particle_count": self.particle_count,
             "mothership_count": len(self.motherships),

@@ -46,6 +46,8 @@ PROTECT_KEYWORDS = (
 EXPLORE_KEYWORDS = ("explor", "orbit", "wander", "patrol", "idle", "scan", "observ")
 RETREAT_KEYWORDS = ("retreat", "flee", "escape", "run away", "withdraw", "evacuat", "avoid")
 
+ACTION_MODES = ("target_point", "menu_4dir", "menu_8dir")
+
 
 @dataclass
 class Particle:
@@ -55,6 +57,7 @@ class Particle:
     perception_radius: float
     communication_radius: float
     half_space_size: int
+    action_mode: str = "target_point"  # target_point | menu_4dir | menu_8dir
     last_intent: str = ""
     last_action: str = "stay"
     last_direction: Optional[str] = None
@@ -127,6 +130,34 @@ class Particle:
         else:
             threats_text = "  none"
 
+        if self.action_mode == "menu_4dir":
+            act_block = (
+                "Move one step: up, down, left, right, or stay.\n"
+                "Respond in JSON:\n"
+                "{\"action\": \"move\", \"direction\": \"up/down/left/right\", \"intent\": \"brief reason\"}\n"
+                "or\n"
+                "{\"action\": \"stay\", \"intent\": \"brief reason\"}"
+            )
+        elif self.action_mode == "menu_8dir":
+            act_block = (
+                "Move one step in any of these 8 directions, or stay:\n"
+                "  up, down, left, right, up-right, up-left, down-right, down-left\n"
+                "Respond in JSON:\n"
+                "{\"action\": \"move\", \"direction\": \"<one of the 8 directions>\", \"intent\": \"brief reason\"}\n"
+                "or\n"
+                "{\"action\": \"stay\", \"intent\": \"brief reason\"}"
+            )
+        else:  # target_point (default)
+            act_block = (
+                "Pick a point (x, y) you want to move toward this step. It can be any location —\n"
+                "a threat, a Mothership, a spot between them, the void. You will move one step\n"
+                "toward that point. Or choose to stay.\n"
+                "Respond in JSON:\n"
+                "{\"action\": \"move\", \"target\": [x, y], \"intent\": \"brief reason\"}\n"
+                "or\n"
+                "{\"action\": \"stay\", \"intent\": \"brief reason\"}"
+            )
+
         return f"""You are a guardian warrior. {purpose_line}
 
 === YOUR SENSES ===
@@ -140,13 +171,7 @@ Threats in range:
 {threats_text}
 
 === ACT ===
-Pick a point (x, y) you want to move toward this step. It can be any location —
-a threat, a Mothership, a spot between them, the void. You will move one step
-toward that point. Or choose to stay.
-Respond in JSON:
-{{"action": "move", "target": [x, y], "intent": "brief reason"}}
-or
-{{"action": "stay", "intent": "brief reason"}}
+{act_block}
 """
 
     def _normalize_direction(self, raw: Optional[str]) -> Optional[str]:
@@ -181,6 +206,14 @@ or
                 return name
         return None
 
+    def _constrain_direction(self, direction: Optional[str]) -> Optional[str]:
+        """For menu_4dir mode, reject diagonals. For others, return as-is."""
+        if direction is None:
+            return None
+        if self.action_mode == "menu_4dir" and direction not in ("up", "down", "left", "right"):
+            return None
+        return direction
+
     def _parse(self, response: str) -> Dict:
         start = response.find("{")
         end = response.rfind("}")
@@ -190,12 +223,11 @@ or
                 action = parsed.get("action", "stay")
                 direction = None
                 if action == "move":
-                    # Preferred path: LLM gives a target point
-                    if "target" in parsed:
+                    if self.action_mode == "target_point" and "target" in parsed:
                         direction = self._target_to_direction(parsed.get("target"))
-                    # Backward compat: also accept direction label if given
                     if direction is None and "direction" in parsed:
                         direction = self._normalize_direction(parsed.get("direction"))
+                direction = self._constrain_direction(direction)
                 return {
                     "action": action,
                     "direction": direction,
@@ -206,7 +238,9 @@ or
                 pass
         # Fallback: scan for direction keywords in raw text
         low = response.lower()
-        for key in _DIRECTION_SCAN_ORDER:
+        # In menu_4dir mode, only scan cardinals
+        scan_order = ("up", "down", "left", "right") if self.action_mode == "menu_4dir" else _DIRECTION_SCAN_ORDER
+        for key in scan_order:
             if key in low:
                 return {
                     "action": "move",

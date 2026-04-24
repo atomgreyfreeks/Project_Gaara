@@ -126,6 +126,7 @@ def write_spec(
         "",
         "## What was tested",
         f"- Scenario: **{scenario}**",
+        f"- Action mode: **{summary.get('action_mode', 'target_point')}**",
         f"- Particles: {summary.get('particle_count')}",
         f"- Duration: {summary.get('duration')} steps",
         f"- First threat appears at step: {summary.get('first_threat_start_step')}",
@@ -165,6 +166,12 @@ def main():
     parser.add_argument("--config", default="config.yaml")
     parser.add_argument("--scenario", default=None,
                         help="Override scenario (must match a key under scenarios: in config.yaml)")
+    parser.add_argument("--action-mode",
+                        choices=["target_point", "menu_4dir", "menu_8dir"],
+                        default=None,
+                        help="Override the LLM's action interface. target_point = name a point "
+                             "(interpreter/executor split, default). menu_4dir and menu_8dir = "
+                             "legacy menu interfaces for ablation.")
     parser.add_argument("--label", default="", help="Optional label appended to run directory name")
     parser.add_argument("--notes", default="", help="Free-form notes appended to spec.md")
     parser.add_argument("--no-frames", action="store_true", help="Skip saving per-step PNGs")
@@ -182,7 +189,9 @@ def main():
     # Snapshot config
     shutil.copy(args.config, os.path.join(run_dir, "config_snapshot.yaml"))
 
-    sim = Simulation(config_path=args.config, output_dir=run_dir, scenario_override=scenario)
+    sim = Simulation(config_path=args.config, output_dir=run_dir,
+                     scenario_override=scenario,
+                     action_mode_override=args.action_mode)
     if not check_ollama(sim, logger):
         sys.exit(1)
     sim.initialize_particles()

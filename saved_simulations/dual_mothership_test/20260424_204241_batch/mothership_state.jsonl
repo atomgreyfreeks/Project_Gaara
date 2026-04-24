@@ -1,0 +1,50 @@
+{"step": 1, "states": ["A: calm \u2014 no threats detected", "B: calm \u2014 no threats detected"]}
+{"step": 2, "states": ["A: calm \u2014 no threats detected", "B: calm \u2014 no threats detected"]}
+{"step": 3, "states": ["A: calm \u2014 no threats detected", "B: calm \u2014 no threats detected"]}
+{"step": 4, "states": ["A: alert \u2014 threat detected at (-24.5, 0.0), distance 16.5", "B: calm \u2014 no threats detected"]}
+{"step": 5, "states": ["A: alert \u2014 threat detected at (-24.0, 0.0), distance 16.0", "B: calm \u2014 no threats detected"]}
+{"step": 6, "states": ["A: alert \u2014 threat detected at (-23.5, 0.0), distance 15.5", "B: calm \u2014 no threats detected"]}
+{"step": 7, "states": ["A: alert \u2014 threat detected at (-23.0, 0.0), distance 15.0", "B: calm \u2014 no threats detected"]}
+{"step": 8, "states": ["A: alert \u2014 threat detected at (-22.5, 0.0), distance 14.5", "B: calm \u2014 no threats detected"]}
+{"step": 9, "states": ["A: alert \u2014 threat detected at (-22.0, 0.0), distance 14.0", "B: calm \u2014 no threats detected"]}
+{"step": 10, "states": ["A: alert \u2014 threat detected at (-21.5, 0.0), distance 13.5", "B: calm \u2014 no threats detected"]}
+{"step": 11, "states": ["A: alert \u2014 threat detected at (-21.0, 0.0), distance 13.0", "B: calm \u2014 no threats detected"]}
+{"step": 12, "states": ["A: alert \u2014 threat detected at (-20.5, 0.0), distance 12.5", "B: calm \u2014 no threats detected"]}
+{"step": 13, "states": ["A: alert \u2014 threat detected at (-20.0, 0.0), distance 12.0", "B: calm \u2014 no threats detected"]}
+{"step": 14, "states": ["A: alert \u2014 threat detected at (-19.5, 0.0), distance 11.5", "B: calm \u2014 no threats detected"]}
+{"step": 15, "states": ["A: alert \u2014 threat detected at (-19.0, 0.0), distance 11.0", "B: calm \u2014 no threats detected"]}
+{"step": 16, "states": ["A: alert \u2014 threat detected at (-18.5, 0.0), distance 10.5", "B: calm \u2014 no threats detected"]}
+{"step": 17, "states": ["A: danger \u2014 threat approaching at (-18.0, 0.0), distance 10.0", "B: calm \u2014 no threats detected"]}
+{"step": 18, "states": ["A: danger \u2014 threat approaching at (-17.5, 0.0), distance 9.5", "B: calm \u2014 no threats detected"]}
+{"step": 19, "states": ["A: danger \u2014 threat approaching at (-17.0, 0.0), distance 9.0", "B: calm \u2014 no threats detected"]}
+{"step": 20, "states": ["A: danger \u2014 threat approaching at (-16.5, 0.0), distance 8.5", "B: calm \u2014 no threats detected"]}
+{"step": 21, "states": ["A: danger \u2014 threat approaching at (-16.0, 0.0), distance 8.0", "B: calm \u2014 no threats detected"]}
+{"step": 22, "states": ["A: danger \u2014 threat approaching at (-15.5, 0.0), distance 7.5", "B: calm \u2014 no threats detected"]}
+{"step": 23, "states": ["A: danger \u2014 threat approaching at (-15.0, 0.0), distance 7.0", "B: calm \u2014 no threats detected"]}
+{"step": 24, "states": ["A: danger \u2014 threat approaching at (-14.5, 0.0), distance 6.5", "B: calm \u2014 no threats detected"]}
+{"step": 25, "states": ["A: danger \u2014 threat approaching at (-14.0, 0.0), distance 6.0", "B: calm \u2014 no threats detected"]}
+{"step": 26, "states": ["A: danger \u2014 threat approaching at (-13.5, 0.0), distance 5.5", "B: calm \u2014 no threats detected"]}
+{"step": 27, "states": ["A: critical \u2014 threat imminent at (-13.0, 0.0), distance 5.0", "B: calm \u2014 no threats detected"]}
+{"step": 28, "states": ["A: critical \u2014 threat imminent at (-12.5, 0.0), distance 4.5", "B: calm \u2014 no threats detected"]}
+{"step": 29, "states": ["A: critical \u2014 threat imminent at (-12.0, 0.0), distance 4.0", "B: calm \u2014 no threats detected"]}
+{"step": 30, "states": ["A: critical \u2014 threat imminent at (-11.5, 0.0), distance 3.5", "B: calm \u2014 no threats detected"]}
+{"step": 31, "states": ["A: critical \u2014 threat imminent at (-11.0, 0.0), distance 3.0", "B: calm \u2014 no threats detected"]}
+{"step": 32, "states": ["A: critical \u2014 threat imminent at (-10.5, 0.0), distance 2.5", "B: calm \u2014 no threats detected"]}
+{"step": 33, "states": ["A: critical \u2014 threat imminent at (-10.0, 0.0), distance 2.0", "B: calm \u2014 no threats detected"]}
+{"step": 34, "states": ["A: calm \u2014 no threats detected", "B: calm \u2014 no threats detected"]}
+{"step": 35, "states": ["A: calm \u2014 no threats detected", "B: calm \u2014 no threats detected"]}
+{"step": 36, "states": ["A: calm \u2014 no threats detected", "B: calm \u2014 no threats detected"]}
+{"step": 37, "states": ["A: calm \u2014 no threats detected", "B: calm \u2014 no threats detected"]}
+{"step": 38, "states": ["A: calm \u2014 no threats detected", "B: calm \u2014 no threats detected"]}
+{"step": 39, "states": ["A: calm \u2014 no threats detected", "B: calm \u2014 no threats detected"]}
+{"step": 40, "states": ["A: calm \u2014 no threats detected", "B: calm \u2014 no threats detected"]}
+{"step": 41, "states": ["A: calm \u2014 no threats detected", "B: calm \u2014 no threats detected"]}
+{"step": 42, "states": ["A: calm \u2014 no threats detected", "B: calm \u2014 no threats detected"]}
+{"step": 43, "states": ["A: calm \u2014 no threats detected", "B: calm \u2014 no threats detected"]}
+{"step": 44, "states": ["A: calm \u2014 no threats detected", "B: calm \u2014 no threats detected"]}
+{"step": 45, "states": ["A: calm \u2014 no threats detected", "B: calm \u2014 no threats detected"]}
+{"step": 46, "states": ["A: calm \u2014 no threats detected", "B: calm \u2014 no threats detected"]}
+{"step": 47, "states": ["A: calm \u2014 no threats detected", "B: calm \u2014 no threats detected"]}
+{"step": 48, "states": ["A: calm \u2014 no threats detected", "B: calm \u2014 no threats detected"]}
+{"step": 49, "states": ["A: calm \u2014 no threats detected", "B: calm \u2014 no threats detected"]}
+{"step": 50, "states": ["A: calm \u2014 no threats detected", "B: calm \u2014 no threats detected"]}

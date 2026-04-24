@@ -6,6 +6,12 @@ simulation:
   scenario: "shield_test"
   seed: 42
 
+# LLM action interface.
+#   target_point -> LLM names a point (x,y); deterministic translator picks direction. Default.
+#   menu_4dir    -> LLM picks from up/down/left/right/stay (legacy, for ablation).
+#   menu_8dir    -> LLM picks from 8 directions + stay (legacy, for ablation).
+action_mode: "target_point"
+
 mothership:
   name: "M"
   center_x: 0
