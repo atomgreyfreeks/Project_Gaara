@@ -94,7 +94,8 @@ def check_ollama(sim: Simulation, logger: logging.Logger) -> bool:
 def create_run_dir(scenario: str, label: str = "") -> str:
     stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     suffix = f"_{label}" if label else ""
-    path = os.path.join("saved_simulations", f"{stamp}_{scenario}{suffix}")
+    # scenario gets its own subfolder; individual runs live inside it.
+    path = os.path.join("saved_simulations", scenario, f"{stamp}{suffix}")
     os.makedirs(path, exist_ok=True)
     os.makedirs(os.path.join(path, "frames"), exist_ok=True)
     return path

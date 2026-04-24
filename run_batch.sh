@@ -56,7 +56,7 @@ for s in "${SCENARIOS[@]}"; do
     END_TS=$(date +%s)
     DUR=$((END_TS - START_TS))
 
-    RUN_DIR=$(grep -oE "saved_simulations/[^ ]+" "$LOG_FILE" | head -1)
+    RUN_DIR=$(grep -oE "saved_simulations/[A-Za-z_]+/[0-9_a-z]+" "$LOG_FILE" | head -1)
     [ -z "$RUN_DIR" ] && RUN_DIR="(unknown)"
 
     if [ "$RC" -eq 0 ]; then
