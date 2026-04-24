@@ -71,17 +71,45 @@ class Particle:
         ]
 
     def perceived_threats(self, threats) -> List:
-        return [t for t in threats if t.active and not t.breached and self.distance_to(t.position) <= self.perception_radius]
+        out = []
+        for t in threats:
+            if not t.active or t.breached:
+                continue
+            if not t.perceivable_by(self.position, self.perception_radius):
+                continue
+            out.append(t)
+        return out
 
     def build_prompt(
         self,
-        mothership_pos: Tuple[float, float],
-        mothership_state: str,
+        motherships,
         nearby: List["Particle"],
         perceived_threats: List,
     ) -> str:
         x, y = self.position
-        dm = distance(self.position, mothership_pos)
+
+        # Mothership section — singular or plural depending on count
+        if len(motherships) == 1:
+            m = motherships[0]
+            dm = distance(self.position, m.position)
+            mothership_header = "Mothership"
+            mothership_lines = [
+                f"Mothership position: ({m.position[0]:.1f}, {m.position[1]:.1f}) — distance: {dm:.1f}",
+                f"Mothership state: {m.last_state}",
+            ]
+            purpose_line = "Your purpose is to protect the Mothership."
+        else:
+            mothership_header = "Motherships"
+            mothership_lines = []
+            for m in motherships:
+                dm = distance(self.position, m.position)
+                mothership_lines.append(
+                    f"Mothership \"{m.name}\" at ({m.position[0]:.1f}, {m.position[1]:.1f}) — "
+                    f"distance: {dm:.1f} — state: {m.last_state}"
+                )
+            purpose_line = "Your purpose is to protect the Motherships."
+
+        mothership_block = "\n".join(mothership_lines)
 
         if nearby:
             nearby_text = "\n".join(
@@ -99,12 +127,11 @@ class Particle:
         else:
             threats_text = "  none"
 
-        return f"""You are a guardian warrior. Your purpose is to protect the Mothership.
+        return f"""You are a guardian warrior. {purpose_line}
 
 === YOUR SENSES ===
 Your position: ({x:.1f}, {y:.1f})
-Mothership position: ({mothership_pos[0]:.1f}, {mothership_pos[1]:.1f}) — distance: {dm:.1f}
-Mothership state: {mothership_state}
+{mothership_block}
 
 Nearby particles:
 {nearby_text}
@@ -114,7 +141,7 @@ Threats in range:
 
 === ACT ===
 Pick a point (x, y) you want to move toward this step. It can be any location —
-a threat, the Mothership, a spot between them, the void. You will move one step
+a threat, a Mothership, a spot between them, the void. You will move one step
 toward that point. Or choose to stay.
 Respond in JSON:
 {{"action": "move", "target": [x, y], "intent": "brief reason"}}
@@ -191,12 +218,11 @@ or
 
     def decide(
         self,
-        mothership_pos: Tuple[float, float],
-        mothership_state: str,
+        motherships,
         nearby: List["Particle"],
         perceived_threats: List,
     ) -> Dict:
-        prompt = self.build_prompt(mothership_pos, mothership_state, nearby, perceived_threats)
+        prompt = self.build_prompt(motherships, nearby, perceived_threats)
         try:
             raw = self.llm_client.generate(prompt)
             decision = self._parse(raw)
@@ -243,11 +269,13 @@ def categorize_intent(intent: str) -> str:
     return "other"
 
 
-def spawn_orbit(count: int, radius: float, rng: random.Random) -> List[Tuple[float, float]]:
+def spawn_orbit(count: int, radius: float, rng: random.Random,
+                center: Tuple[float, float] = (0.0, 0.0)) -> List[Tuple[float, float]]:
     import math
+    cx, cy = center
     positions = []
     for i in range(count):
         angle = (2 * math.pi * i / count) + rng.uniform(-0.1, 0.1)
         r = radius + rng.uniform(-1.0, 1.0)
-        positions.append((r * math.cos(angle), r * math.sin(angle)))
+        positions.append((cx + r * math.cos(angle), cy + r * math.sin(angle)))
     return positions

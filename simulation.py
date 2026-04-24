@@ -1,10 +1,9 @@
-"""Swarm shield simulation — orchestrates threats, mothership, particles, metrics."""
+"""Swarm shield simulation — orchestrates threats, motherships, particles, metrics."""
 import csv
 import json
 import logging
 import os
 import random
-from dataclasses import asdict
 from typing import Dict, List, Optional, Tuple
 
 import yaml
@@ -21,6 +20,7 @@ from analysis import (
     intent_distribution,
     response_time,
 )
+from utils import distance
 
 logger = logging.getLogger(__name__)
 
@@ -45,15 +45,33 @@ class Simulation:
         self.seed = sim_cfg.get("seed", 42)
         self.rng = random.Random(self.seed)
 
-        mo_cfg = self.config["mothership"]
-        self.mothership = Mothership(
-            center_x=mo_cfg["center_x"],
-            center_y=mo_cfg["center_y"],
-            awareness_radius=mo_cfg["threat_awareness_radius"],
-            danger_radius=mo_cfg["danger_radius"],
-            critical_radius=mo_cfg["critical_radius"],
-        )
-        self.breach_radius = mo_cfg["breach_radius"]
+        # Mothership(s). Support both the global default and scenario-specific "motherships".
+        default_mo = self.config["mothership"]
+        mo_list_cfg = self.scenario_cfg.get("motherships")
+        if mo_list_cfg:
+            self.motherships: List[Mothership] = []
+            for m in mo_list_cfg:
+                self.motherships.append(Mothership(
+                    name=m.get("name", f"M{len(self.motherships)+1}"),
+                    center_x=m["center_x"],
+                    center_y=m["center_y"],
+                    awareness_radius=m.get("threat_awareness_radius", default_mo["threat_awareness_radius"]),
+                    danger_radius=m.get("danger_radius", default_mo["danger_radius"]),
+                    critical_radius=m.get("critical_radius", default_mo["critical_radius"]),
+                ))
+        else:
+            self.motherships = [Mothership(
+                name=default_mo.get("name", "M"),
+                center_x=default_mo["center_x"],
+                center_y=default_mo["center_y"],
+                awareness_radius=default_mo["threat_awareness_radius"],
+                danger_radius=default_mo["danger_radius"],
+                critical_radius=default_mo["critical_radius"],
+            )]
+        self.breach_radius = default_mo["breach_radius"]
+
+        # Backward-compat single-mothership accessor for legacy metrics/visualization paths.
+        self.mothership = self.motherships[0]
 
         p_cfg = self.config["particles"]
         self.particle_count = self.scenario_cfg.get("particle_count", p_cfg["count"])
@@ -72,16 +90,22 @@ class Simulation:
             min_p=llm_cfg.get("min_p", 0.05),
         )
 
-        self.threats: List[Threat] = [
-            Threat(
+        # Threats — each may reference a target_mothership by name; default to first mothership position.
+        self.threats: List[Threat] = []
+        for t in self.scenario_cfg["threats"]:
+            tgt_name = t.get("target_mothership")
+            target_m = next((m for m in self.motherships if m.name == tgt_name), self.motherships[0])
+            self.threats.append(Threat(
                 name=t["name"],
                 start_step=t["start_step"],
                 position=(float(t["center_x"]), float(t["center_y"])),
                 speed=float(t["speed"]),
-                target=(self.mothership.center_x, self.mothership.center_y),
-            )
-            for t in self.scenario_cfg["threats"]
-        ]
+                target=(target_m.center_x, target_m.center_y),
+                target_mothership=tgt_name,
+                end_step=t.get("end_step"),
+                detection_radius=t.get("detection_radius"),
+                steering=t.get("steering", "linear"),
+            ))
 
         self.particles: List[Particle] = []
         self.step = 0
@@ -93,13 +117,14 @@ class Simulation:
             "intent_dist": [],
             "breach_step": None,
         }
-
-        # JSONL file handles opened lazily
         self._jsonl_handles: Dict[str, "open"] = {}
 
     # ---------- lifecycle ----------
     def initialize_particles(self) -> None:
-        positions = spawn_orbit(self.particle_count, self.spawn_radius, self.rng)
+        # Spawn around the centroid of motherships
+        cx = sum(m.center_x for m in self.motherships) / len(self.motherships)
+        cy = sum(m.center_y for m in self.motherships) / len(self.motherships)
+        positions = spawn_orbit(self.particle_count, self.spawn_radius, self.rng, center=(cx, cy))
         for i, pos in enumerate(positions):
             self.particles.append(
                 Particle(
@@ -111,7 +136,8 @@ class Simulation:
                     half_space_size=self.half_space_size,
                 )
             )
-        logger.info(f"Spawned {len(self.particles)} particles in orbit r={self.spawn_radius}")
+        logger.info(f"Spawned {len(self.particles)} particles in orbit r={self.spawn_radius} "
+                    f"around ({cx:.1f}, {cy:.1f})")
 
     def _open_jsonl(self, name: str):
         if name not in self._jsonl_handles:
@@ -131,40 +157,46 @@ class Simulation:
     def step_simulation(self) -> None:
         self.step += 1
 
-        # Phase 0: threats update, mothership state
+        # Phase 0: threats update, mothership states
         for t in self.threats:
-            t.update(self.step, self.breach_radius)
+            t.update(self.step, self.breach_radius, particles=self.particles)
+
         if self.metrics["breach_step"] is None:
             for t in self.threats:
                 if t.breached:
                     self.metrics["breach_step"] = self.step
                     break
 
-        state = self.mothership.compute_state(self.threats)
+        states = []
+        for m in self.motherships:
+            m.last_state = m.compute_state(self.threats)
+            states.append(f"{m.name}: {m.last_state}")
 
-        # Phase 1 + 2: perception + decision (sequential, but uses same-step data)
+        # Phase 1 + 2: perception + decision
         decisions: List[Dict] = []
         for p in self.particles:
             nearby = p.nearby_particles(self.particles)
             perceived = p.perceived_threats(self.threats)
-            d = p.decide(self.mothership.position, state, nearby, perceived)
+            d = p.decide(self.motherships, nearby, perceived)
             decisions.append(d)
 
         # Phase 3: apply moves
         for p, d in zip(self.particles, decisions):
             p.apply_move(d["direction"])
 
-        # Phase 4: measurement + logging
-        self._record(state, decisions)
+        # Phase 4: record
+        self._record(states, decisions)
 
-    def _record(self, mothership_state: str, decisions: List[Dict]) -> None:
+    def _record(self, mothership_states: List[str], decisions: List[Dict]) -> None:
         particle_positions = [p.position for p in self.particles]
         intents = [d["intent"] for d in decisions]
 
-        nearest = self.mothership.nearest_threat(self.threats)
+        # Shield coverage: measured against the PRIMARY mothership (first in list) and its nearest threat.
+        primary = self.motherships[0]
+        nearest = primary.nearest_threat(self.threats)
         threat_pos = nearest.position if nearest else None
-        cov = shield_coverage(particle_positions, self.mothership.position, threat_pos)
-        counts = angular_distribution(particle_positions, self.mothership.position)
+        cov = shield_coverage(particle_positions, primary.position, threat_pos)
+        counts = angular_distribution(particle_positions, primary.position)
         std_c = sector_std(counts)
         coh = cohesion_score(particle_positions)
         idist = intent_distribution(intents)
@@ -175,7 +207,6 @@ class Simulation:
         self.metrics["cohesion"].append(coh)
         self.metrics["intent_dist"].append(idist)
 
-        # JSONL logs
         self._open_jsonl("particle_positions.jsonl").write(json.dumps({
             "step": self.step,
             "positions": [[round(x, 3), round(y, 3)] for x, y in particle_positions],
@@ -193,18 +224,18 @@ class Simulation:
                         for t in self.threats],
         }) + "\n")
         self._open_jsonl("mothership_state.jsonl").write(json.dumps({
-            "step": self.step, "state": mothership_state,
+            "step": self.step, "states": mothership_states,
         }) + "\n")
 
         if self.step % 5 == 0 or self.step == 1:
+            joined = " | ".join(mothership_states)
             logger.info(
                 f"Step {self.step}/{self.duration} | cov={cov:.2f} std={std_c:.2f} "
-                f"coh={coh:.2f} state=[{mothership_state}]"
+                f"coh={coh:.2f} | {joined}"
             )
 
     # ---------- finalization ----------
     def finalize_metrics(self) -> Dict:
-        # CSV outputs
         with open(os.path.join(self.output_dir, "shield_coverage.csv"), "w", newline="") as f:
             w = csv.writer(f)
             w.writerow(["step", "shield_coverage"])
@@ -226,6 +257,8 @@ class Simulation:
             "scenario": self.scenario_name,
             "duration": self.duration,
             "particle_count": self.particle_count,
+            "mothership_count": len(self.motherships),
+            "threat_count": len(self.threats),
             "first_threat_start_step": first_threat_start,
             "breach_step": self.metrics["breach_step"],
             "breached": self.metrics["breach_step"] is not None,

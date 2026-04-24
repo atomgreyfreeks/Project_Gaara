@@ -37,7 +37,7 @@ class Visualizer:
     def render_step(
         self,
         step: int,
-        mothership: Mothership,
+        motherships: List[Mothership],
         particles: List[Particle],
         threats: List[Threat],
         mothership_state: str,
@@ -56,7 +56,7 @@ class Visualizer:
         ax_intent = fig.add_subplot(gs[1, 2])
         ax_dist = fig.add_subplot(gs[2, 1:])
 
-        self._draw_field(ax_field, step, mothership, particles, threats, mothership_state)
+        self._draw_field(ax_field, step, motherships, particles, threats, mothership_state)
         self._draw_coverage(ax_cov, shield_cov_series)
         self._draw_polar(ax_polar, sector_counts)
         self._draw_intents(ax_intent, intent_dist)
@@ -67,33 +67,34 @@ class Visualizer:
             fig.savefig(save_path, dpi=DPI, bbox_inches="tight")
         plt.close(fig)
 
-    def _draw_field(self, ax, step, mothership, particles, threats, state):
+    def _draw_field(self, ax, step, motherships, particles, threats, state):
         ax.set_xlim(-self.half, self.half)
         ax.set_ylim(-self.half, self.half)
         ax.set_aspect("equal")
         ax.grid(True, alpha=0.25)
-        ax.set_title(f"Step {step} — {state}", fontsize=10, fontweight="bold")
+        ax.set_title(f"Step {step} — {state}", fontsize=9, fontweight="bold")
 
-        # Mothership
-        ax.add_patch(patches.Circle(mothership.position, 2.0, facecolor="#1f6feb", edgecolor="navy",
-                                    alpha=0.85, zorder=5))
-        ax.text(mothership.position[0], mothership.position[1], "M", ha="center", va="center",
-                color="white", fontweight="bold", zorder=6)
-
-        # Awareness/danger/critical rings
-        for r, color in [(mothership.awareness_radius, "#888888"),
-                         (mothership.danger_radius, "#d39a00"),
-                         (mothership.critical_radius, "#cc3333")]:
-            ax.add_patch(patches.Circle(mothership.position, r, fill=False,
-                                        edgecolor=color, linestyle=":", alpha=0.35))
+        # Motherships (1 or more)
+        for m in motherships:
+            ax.add_patch(patches.Circle(m.position, 2.0, facecolor="#1f6feb", edgecolor="navy",
+                                        alpha=0.85, zorder=5))
+            ax.text(m.position[0], m.position[1], m.name, ha="center", va="center",
+                    color="white", fontweight="bold", zorder=6, fontsize=9)
+            for r, color in [(m.awareness_radius, "#888888"),
+                             (m.danger_radius, "#d39a00"),
+                             (m.critical_radius, "#cc3333")]:
+                ax.add_patch(patches.Circle(m.position, r, fill=False,
+                                            edgecolor=color, linestyle=":", alpha=0.25))
 
         # Active threats
         active_threats = [t for t in threats if t.active and not t.breached]
         for t in active_threats:
             ax.scatter(t.position[0], t.position[1], marker="^", s=180, c="red",
                        edgecolors="darkred", linewidths=1.5, zorder=7)
-            ax.plot([t.position[0], mothership.position[0]],
-                    [t.position[1], mothership.position[1]],
+            # Line to its targeted mothership (or first mothership)
+            target_m = next((m for m in motherships if m.name == t.target_mothership), motherships[0])
+            ax.plot([t.position[0], target_m.position[0]],
+                    [t.position[1], target_m.position[1]],
                     "r--", alpha=0.35, linewidth=1)
             ax.text(t.position[0], t.position[1] + 1.2, t.name, ha="center",
                     fontsize=7, color="darkred")

@@ -26,16 +26,46 @@ from utils import distance
 SCENARIO_TLDR = {
     "shield_test": (
         "Baseline emergence test: 20 LLM particles orbit a mothership; a single threat "
-        "approaches from the east at step 10. We measure whether particles spontaneously "
-        "position themselves between the threat and the mothership without being told to."
+        "approaches from the east. We measure whether particles spontaneously position "
+        "between the threat and the mothership without being told to."
     ),
     "surround_test": (
-        "Multi-vector test: 3 threats from 120°-spaced directions arrive at steps 10/15/20. "
-        "We measure whether the swarm can split and cover multiple threat vectors simultaneously."
+        "Multi-vector test: 3 threats from different directions, staggered arrivals. "
+        "Can the swarm split and cover multiple threat vectors simultaneously?"
     ),
     "multi_threat": (
-        "Stress test: 30 particles vs 5 threats from random directions with staggered arrivals. "
-        "We measure adaptive redistribution — can the swarm reshape as the threat picture changes?"
+        "Stress test: 30 particles vs 5 threats from random directions, staggered arrivals. "
+        "Does the swarm show adaptive redistribution as the threat picture changes?"
+    ),
+    "scarcity_test": (
+        "Ablation: shield_test with only 5 particles. Tests whether the attack-swarm behavior "
+        "survives under scarcity, or whether it requires quorum."
+    ),
+    "decoy_test": (
+        "Salience discrimination: two threats — one real (moves toward mothership), one decoy "
+        "(stationary). Identical appearance. Do particles interpret trajectory to distinguish?"
+    ),
+    "pulse_test": (
+        "Temporal interpretation: threat appears at step 4, disappears at step 15, reappears at "
+        "step 25. No particle memory. Does the swarm disperse when the threat vanishes? Does it "
+        "respond faster the second time?"
+    ),
+    "stealth_test": (
+        "Information propagation: threat has a small detection_radius (particles only perceive "
+        "it at close range). Mothership always sees it. Do distant particles respond to mothership "
+        "state alone, and does awareness propagate through proximity?"
+    ),
+    "dual_mothership_test": (
+        "Attention allocation: two motherships (A and B). Threat targets A only. Particles are "
+        "generic guardians. Do they commit to the threatened one, split, or freeze?"
+    ),
+    "escape_test": (
+        "Areal threat: a line of slow threats spanning the east edge of the field — a wave instead "
+        "of a point. Does the swarm produce a line formation instead of a cluster?"
+    ),
+    "predator_prey_test": (
+        "Adaptive adversary: threat moves toward the mothership AND steers away from particle "
+        "clusters, probing for weak points. Does the swarm develop encirclement or get confused?"
     ),
 }
 
@@ -132,8 +162,8 @@ def write_spec(
 def main():
     parser = argparse.ArgumentParser(description="Swarm shield simulation — LLM particles defending a mothership.")
     parser.add_argument("--config", default="config.yaml")
-    parser.add_argument("--scenario", choices=["shield_test", "surround_test", "multi_threat"],
-                        default=None, help="Override scenario from config")
+    parser.add_argument("--scenario", default=None,
+                        help="Override scenario (must match a key under scenarios: in config.yaml)")
     parser.add_argument("--label", default="", help="Optional label appended to run directory name")
     parser.add_argument("--notes", default="", help="Free-form notes appended to spec.md")
     parser.add_argument("--no-frames", action="store_true", help="Skip saving per-step PNGs")
@@ -168,18 +198,19 @@ def main():
     try:
         while sim.step < sim.duration:
             sim.step_simulation()
-            nearest = sim.mothership.nearest_threat(sim.threats)
-            threat_distance_series.append(distance(sim.mothership.position, nearest.position) if nearest else 0.0)
+            primary = sim.motherships[0]
+            nearest = primary.nearest_threat(sim.threats)
+            threat_distance_series.append(distance(primary.position, nearest.position) if nearest else 0.0)
 
             if viz and (sim.step % args.frame_interval == 0 or sim.step == sim.duration):
-                state = sim.mothership.compute_state(sim.threats)
+                state_summary = " | ".join(f"{m.name}: {m.last_state}" for m in sim.motherships)
                 frame_path = os.path.join(run_dir, "frames", f"frame_{sim.step:04d}.png")
                 viz.render_step(
                     step=sim.step,
-                    mothership=sim.mothership,
+                    motherships=sim.motherships,
                     particles=sim.particles,
                     threats=sim.threats,
-                    mothership_state=state,
+                    mothership_state=state_summary,
                     shield_cov_series=sim.metrics["shield_coverage"],
                     sector_counts=sim.metrics["sector_counts"][-1],
                     intent_dist=sim.metrics["intent_dist"][-1],
