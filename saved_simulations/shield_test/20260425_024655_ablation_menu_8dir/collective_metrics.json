@@ -1,0 +1,21 @@
+{
+  "scenario": "shield_test",
+  "action_mode": "menu_8dir",
+  "duration": 50,
+  "particle_count": 20,
+  "mothership_count": 1,
+  "threat_count": 1,
+  "first_threat_start_step": 4,
+  "breach_step": 41,
+  "breached": true,
+  "response_time_steps": 6,
+  "max_shield_coverage": 0.35,
+  "avg_shield_coverage_post_threat": 0.06595744680851064,
+  "avg_cohesion": 1.233482856839253,
+  "final_intent_distribution": {
+    "protect": 15,
+    "explore": 0,
+    "retreat": 0,
+    "other": 5
+  }
+}

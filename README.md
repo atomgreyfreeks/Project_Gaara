@@ -7,6 +7,8 @@ were never explicitly programmed?
 Inspired by Gaara's sand — each grain responds locally to the wielder's state;
 the global form (shield, dome, wall) is emergent, never dictated.
 
+> **➜ Start here: [`FINDINGS.md`](FINDINGS.md)** — plain-English walkthrough of what we've learned and which simulation runs prove what. Then [`saved_simulations/README.md`](saved_simulations/README.md) for navigating the data.
+
 ## What's in the box
 
 - **`particle.py`** — the LLM particle. Minimal prompt, 5-action space (up/down/left/right/stay),
