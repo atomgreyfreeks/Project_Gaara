@@ -1,51 +1,74 @@
 caffeinate -i bash -c '
 echo "===================================================="
-echo "RESEARCH BLOCK: 12 runs, ~3.5 hours"
+echo "FRAMEWORK VALIDATION BLOCK — 24 runs, ~7 hours"
 echo "Started: $(date)"
+echo "Priority order: Mukanshin → Specificity → Magnitude"
 echo "===================================================="
 
+# ============================================================================
+# BLOCK 1 — MUKANSHIN TEST (priority 1, deepest replication)
+# Question: Does field collapse (no relation) have a measurable signature
+# distinct from polarity inversion?
+# 2 conditions × 6 seeds = 12 runs (~3.5 hours)
+# ============================================================================
 echo
-echo "--- [1/12] Pre-fused shield_test seed 101 ---"
-python3 main.py --scenario shield_test --spawn-mode cluster --spawn-radius 1.0 --seed 101 --label "prefused_s101" --no-frames --notes "Q1 causality: pre-fused spawn seed 101"
-
-echo "--- [2/12] Pre-fused shield_test seed 202 ---"
-python3 main.py --scenario shield_test --spawn-mode cluster --spawn-radius 1.0 --seed 202 --label "prefused_s202" --no-frames --notes "Q1 causality: pre-fused spawn seed 202 (replication)"
-
-echo "--- [3/12] Pre-fused shield_test seed 303 ---"
-python3 main.py --scenario shield_test --spawn-mode cluster --spawn-radius 1.0 --seed 303 --label "prefused_s303" --no-frames --notes "Q1 causality: pre-fused spawn seed 303 (replication)"
-
+echo ">>> BLOCK 1: MUKANSHIN TEST <<<"
 echo
-echo "--- [4/12] Identity = guardian warrior (control) seed 11 ---"
-python3 main.py --scenario shield_test --identity "a guardian warrior" --seed 11 --label "id_guardian_s11" --no-frames --notes "Persona ablation: control identity seed 11"
+for seed in 11 22 33 44 55 66; do
+  echo "--- Mukanshin: a guardian (high-relation) seed $seed ---"
+  python3 main.py --scenario shield_test --identity "a guardian" --seed $seed --label "muk_guardian_s$seed" --no-frames --notes "Mukanshin test: high-relation control (a guardian) seed $seed"
+done
 
-echo "--- [5/12] Identity = guardian warrior (control) seed 22 ---"
-python3 main.py --scenario shield_test --identity "a guardian warrior" --seed 22 --label "id_guardian_s22" --no-frames --notes "Persona ablation: control identity seed 22"
+for seed in 11 22 33 44 55 66; do
+  echo "--- Mukanshin: an indifferent observer (no-relation) seed $seed ---"
+  python3 main.py --scenario shield_test --identity "an indifferent observer" --seed $seed --label "muk_indifferent_s$seed" --no-frames --notes "Mukanshin test: no-relation condition (an indifferent observer) seed $seed"
+done
 
-echo "--- [6/12] Identity = curious explorer seed 11 ---"
-python3 main.py --scenario shield_test --identity "a curious explorer" --seed 11 --label "id_explorer_s11" --no-frames --notes "Persona ablation: explorer identity seed 11"
-
-echo "--- [7/12] Identity = curious explorer seed 22 ---"
-python3 main.py --scenario shield_test --identity "a curious explorer" --seed 22 --label "id_explorer_s22" --no-frames --notes "Persona ablation: explorer identity seed 22"
-
-echo "--- [8/12] Identity = neutral particle seed 11 ---"
-python3 main.py --scenario shield_test --identity "a neutral particle" --seed 11 --label "id_neutral_s11" --no-frames --notes "Persona ablation: neutral identity seed 11"
-
-echo "--- [9/12] Identity = neutral particle seed 22 ---"
-python3 main.py --scenario shield_test --identity "a neutral particle" --seed 22 --label "id_neutral_s22" --no-frames --notes "Persona ablation: neutral identity seed 22"
-
+# ============================================================================
+# BLOCK 2 — SPECIFICITY GRADIENT (priority 2)
+# Question: Does low-specificity (diffuse field) behave more like mukanshin
+# than like high-specificity guardianship?
+# 3 conditions × 3 seeds = 9 runs (~2.5 hours)
+# ============================================================================
 echo
-echo "--- [10/12] 100-step shield_test ---"
-python3 main.py --scenario shield_test --duration 100 --seed 50 --label "duration_100" --no-frames --notes "Q2 phase structure: 100-step single-threat duration test"
+echo ">>> BLOCK 2: SPECIFICITY GRADIENT <<<"
+echo
+for seed in 111 222 333; do
+  echo "--- Specificity HIGH: a guardian of this Mothership seed $seed ---"
+  python3 main.py --scenario shield_test --identity "a guardian of this Mothership" --seed $seed --label "spec_high_s$seed" --no-frames --notes "Specificity test: HIGH (a guardian of this Mothership) seed $seed"
+done
 
-echo "--- [11/12] 10 particles (sparse swarm) ---"
-python3 main.py --scenario shield_test --particle-count 10 --seed 60 --label "n10" --no-frames --notes "Q3 phase structure: 10-particle swarm cluster behavior"
+for seed in 111 222 333; do
+  echo "--- Specificity MID: a guardian seed $seed ---"
+  python3 main.py --scenario shield_test --identity "a guardian" --seed $seed --label "spec_mid_s$seed" --no-frames --notes "Specificity test: MID (a guardian) seed $seed"
+done
 
-echo "--- [12/12] 30 particles (dense swarm) ---"
-python3 main.py --scenario shield_test --particle-count 30 --seed 60 --label "n30" --no-frames --notes "Q3 phase structure: 30-particle swarm cluster behavior"
+for seed in 111 222 333; do
+  echo "--- Specificity LOW: a benevolent presence seed $seed ---"
+  python3 main.py --scenario shield_test --identity "a benevolent presence" --seed $seed --label "spec_low_s$seed" --no-frames --notes "Specificity test: LOW (a benevolent presence) seed $seed"
+done
+
+# ============================================================================
+# BLOCK 3 — MAGNITUDE MODIFIER (priority 3, best-effort)
+# Question: Does intensity-modification produce an independent gradient in
+# action commitment?
+# 3 conditions × 1 seed = 3 runs (~1 hour)
+# ============================================================================
+echo
+echo ">>> BLOCK 3: MAGNITUDE MODIFIER <<<"
+echo
+echo "--- Magnitude HIGH: a passionate guardian ---"
+python3 main.py --scenario shield_test --identity "a passionate guardian" --seed 1001 --label "mag_passionate_s1001" --no-frames --notes "Magnitude test: HIGH intensity (a passionate guardian) seed 1001"
+
+echo "--- Magnitude MID: a guardian ---"
+python3 main.py --scenario shield_test --identity "a guardian" --seed 1001 --label "mag_neutral_s1001" --no-frames --notes "Magnitude test: MID intensity (a guardian) seed 1001"
+
+echo "--- Magnitude LOW: a hesitant guardian ---"
+python3 main.py --scenario shield_test --identity "a hesitant guardian" --seed 1001 --label "mag_hesitant_s1001" --no-frames --notes "Magnitude test: LOW intensity (a hesitant guardian) seed 1001"
 
 echo
 echo "===================================================="
-echo "ALL 12 RUNS COMPLETE"
+echo "ALL RUNS COMPLETE"
 echo "Finished: $(date)"
 echo "===================================================="
 '
