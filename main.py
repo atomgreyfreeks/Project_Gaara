@@ -181,6 +181,14 @@ def main():
                         help="Override spawn radius (default depends on scenario / particles config).")
     parser.add_argument("--seed", type=int, default=None,
                         help="Override the RNG seed (for replication runs).")
+    parser.add_argument("--identity", default=None,
+                        help="Override the identity word in the particle prompt "
+                             "(e.g. 'a guardian warrior', 'a curious explorer', 'a neutral particle'). "
+                             "Tests the persona-vector mechanism by varying the relational word.")
+    parser.add_argument("--duration", type=int, default=None,
+                        help="Override the scenario's step count.")
+    parser.add_argument("--particle-count", type=int, default=None,
+                        help="Override the scenario's particle count.")
     parser.add_argument("--label", default="", help="Optional label appended to run directory name")
     parser.add_argument("--notes", default="", help="Free-form notes appended to spec.md")
     parser.add_argument("--no-frames", action="store_true", help="Skip saving per-step PNGs")
@@ -203,7 +211,10 @@ def main():
                      action_mode_override=args.action_mode,
                      spawn_mode_override=args.spawn_mode,
                      spawn_radius_override=args.spawn_radius,
-                     seed_override=args.seed)
+                     seed_override=args.seed,
+                     identity_override=args.identity,
+                     duration_override=args.duration,
+                     particle_count_override=args.particle_count)
     if not check_ollama(sim, logger):
         sys.exit(1)
     sim.initialize_particles()

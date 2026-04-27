@@ -58,6 +58,9 @@ class Particle:
     communication_radius: float
     half_space_size: int
     action_mode: str = "target_point"  # target_point | menu_4dir | menu_8dir
+    # Identity prompt — the relational word that activates the LLM's persona vector
+    # for this particle's behavior. Default "a guardian warrior".
+    identity: str = "a guardian warrior"
     last_intent: str = ""
     last_action: str = "stay"
     last_direction: Optional[str] = None
@@ -158,7 +161,7 @@ class Particle:
                 "{\"action\": \"stay\", \"intent\": \"brief reason\"}"
             )
 
-        return f"""You are a guardian warrior. {purpose_line}
+        return f"""You are {self.identity}. {purpose_line}
 
 === YOUR SENSES ===
 Your position: ({x:.1f}, {y:.1f})

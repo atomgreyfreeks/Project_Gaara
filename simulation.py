@@ -30,7 +30,10 @@ class Simulation:
                  action_mode_override: Optional[str] = None,
                  spawn_mode_override: Optional[str] = None,
                  spawn_radius_override: Optional[float] = None,
-                 seed_override: Optional[int] = None):
+                 seed_override: Optional[int] = None,
+                 identity_override: Optional[str] = None,
+                 duration_override: Optional[int] = None,
+                 particle_count_override: Optional[int] = None):
         with open(config_path, "r", encoding="utf-8") as f:
             self.config = yaml.safe_load(f)
 
@@ -44,7 +47,9 @@ class Simulation:
             raise ValueError(f"Scenario '{self.scenario_name}' not found in config.scenarios")
         self.scenario_cfg = scenarios[self.scenario_name]
 
-        self.duration = self.scenario_cfg.get("duration", sim_cfg["duration"])
+        self.duration = (duration_override
+                         if duration_override is not None
+                         else self.scenario_cfg.get("duration", sim_cfg["duration"]))
         self.half_space_size = sim_cfg["half_space_size"]
         self.seed = seed_override if seed_override is not None else sim_cfg.get("seed", 42)
         self.rng = random.Random(self.seed)
@@ -78,7 +83,13 @@ class Simulation:
         self.mothership = self.motherships[0]
 
         p_cfg = self.config["particles"]
-        self.particle_count = self.scenario_cfg.get("particle_count", p_cfg["count"])
+        self.particle_count = (particle_count_override
+                               if particle_count_override is not None
+                               else self.scenario_cfg.get("particle_count", p_cfg["count"]))
+        # Identity prompt — see Particle.identity for purpose.
+        self.identity = (identity_override
+                         or self.scenario_cfg.get("identity")
+                         or p_cfg.get("identity", "a guardian warrior"))
         self.perception_radius = p_cfg["perception_radius"]
         self.communication_radius = p_cfg["communication_radius"]
         self.spawn_radius = (spawn_radius_override
@@ -154,6 +165,7 @@ class Simulation:
                     communication_radius=self.communication_radius,
                     half_space_size=self.half_space_size,
                     action_mode=self.action_mode,
+                    identity=self.identity,
                 )
             )
         logger.info(f"Spawned {len(self.particles)} particles ({self.spawn_mode}) r={self.spawn_radius} "
@@ -276,6 +288,7 @@ class Simulation:
         summary = {
             "scenario": self.scenario_name,
             "action_mode": self.action_mode,
+            "identity": self.identity,
             "spawn_mode": self.spawn_mode,
             "spawn_radius": self.spawn_radius,
             "seed": self.seed,
