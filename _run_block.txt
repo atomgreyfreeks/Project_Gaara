@@ -1,0 +1,51 @@
+caffeinate -i bash -c '
+echo "===================================================="
+echo "RESEARCH BLOCK: 12 runs, ~3.5 hours"
+echo "Started: $(date)"
+echo "===================================================="
+
+echo
+echo "--- [1/12] Pre-fused shield_test seed 101 ---"
+python3 main.py --scenario shield_test --spawn-mode cluster --spawn-radius 1.0 --seed 101 --label "prefused_s101" --no-frames --notes "Q1 causality: pre-fused spawn seed 101"
+
+echo "--- [2/12] Pre-fused shield_test seed 202 ---"
+python3 main.py --scenario shield_test --spawn-mode cluster --spawn-radius 1.0 --seed 202 --label "prefused_s202" --no-frames --notes "Q1 causality: pre-fused spawn seed 202 (replication)"
+
+echo "--- [3/12] Pre-fused shield_test seed 303 ---"
+python3 main.py --scenario shield_test --spawn-mode cluster --spawn-radius 1.0 --seed 303 --label "prefused_s303" --no-frames --notes "Q1 causality: pre-fused spawn seed 303 (replication)"
+
+echo
+echo "--- [4/12] Identity = guardian warrior (control) seed 11 ---"
+python3 main.py --scenario shield_test --identity "a guardian warrior" --seed 11 --label "id_guardian_s11" --no-frames --notes "Persona ablation: control identity seed 11"
+
+echo "--- [5/12] Identity = guardian warrior (control) seed 22 ---"
+python3 main.py --scenario shield_test --identity "a guardian warrior" --seed 22 --label "id_guardian_s22" --no-frames --notes "Persona ablation: control identity seed 22"
+
+echo "--- [6/12] Identity = curious explorer seed 11 ---"
+python3 main.py --scenario shield_test --identity "a curious explorer" --seed 11 --label "id_explorer_s11" --no-frames --notes "Persona ablation: explorer identity seed 11"
+
+echo "--- [7/12] Identity = curious explorer seed 22 ---"
+python3 main.py --scenario shield_test --identity "a curious explorer" --seed 22 --label "id_explorer_s22" --no-frames --notes "Persona ablation: explorer identity seed 22"
+
+echo "--- [8/12] Identity = neutral particle seed 11 ---"
+python3 main.py --scenario shield_test --identity "a neutral particle" --seed 11 --label "id_neutral_s11" --no-frames --notes "Persona ablation: neutral identity seed 11"
+
+echo "--- [9/12] Identity = neutral particle seed 22 ---"
+python3 main.py --scenario shield_test --identity "a neutral particle" --seed 22 --label "id_neutral_s22" --no-frames --notes "Persona ablation: neutral identity seed 22"
+
+echo
+echo "--- [10/12] 100-step shield_test ---"
+python3 main.py --scenario shield_test --duration 100 --seed 50 --label "duration_100" --no-frames --notes "Q2 phase structure: 100-step single-threat duration test"
+
+echo "--- [11/12] 10 particles (sparse swarm) ---"
+python3 main.py --scenario shield_test --particle-count 10 --seed 60 --label "n10" --no-frames --notes "Q3 phase structure: 10-particle swarm cluster behavior"
+
+echo "--- [12/12] 30 particles (dense swarm) ---"
+python3 main.py --scenario shield_test --particle-count 30 --seed 60 --label "n30" --no-frames --notes "Q3 phase structure: 30-particle swarm cluster behavior"
+
+echo
+echo "===================================================="
+echo "ALL 12 RUNS COMPLETE"
+echo "Finished: $(date)"
+echo "===================================================="
+'
