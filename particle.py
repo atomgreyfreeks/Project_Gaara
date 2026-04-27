@@ -313,3 +313,20 @@ def spawn_orbit(count: int, radius: float, rng: random.Random,
         r = radius + rng.uniform(-1.0, 1.0)
         positions.append((cx + r * math.cos(angle), cy + r * math.sin(angle)))
     return positions
+
+
+def spawn_cluster(count: int, radius: float, rng: random.Random,
+                  center: Tuple[float, float] = (0.0, 0.0)) -> List[Tuple[float, float]]:
+    """Uniformly distribute particles within a disk of `radius` around `center`.
+
+    Used for the 'pre-fused' ablation: spawn the swarm tightly packed so we can
+    test whether starting from a single cluster impairs threat engagement.
+    """
+    import math
+    cx, cy = center
+    positions = []
+    for _ in range(count):
+        angle = rng.uniform(0, 2 * math.pi)
+        r = math.sqrt(rng.random()) * radius
+        positions.append((cx + r * math.cos(angle), cy + r * math.sin(angle)))
+    return positions

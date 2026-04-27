@@ -10,7 +10,7 @@ import yaml
 
 from mothership import Mothership
 from ollama_client import OllamaClient
-from particle import Particle, spawn_orbit
+from particle import Particle, spawn_orbit, spawn_cluster
 from threat import Threat
 from analysis import (
     shield_coverage,
@@ -27,7 +27,10 @@ logger = logging.getLogger(__name__)
 
 class Simulation:
     def __init__(self, config_path: str, output_dir: str, scenario_override: Optional[str] = None,
-                 action_mode_override: Optional[str] = None):
+                 action_mode_override: Optional[str] = None,
+                 spawn_mode_override: Optional[str] = None,
+                 spawn_radius_override: Optional[float] = None,
+                 seed_override: Optional[int] = None):
         with open(config_path, "r", encoding="utf-8") as f:
             self.config = yaml.safe_load(f)
 
@@ -43,7 +46,7 @@ class Simulation:
 
         self.duration = self.scenario_cfg.get("duration", sim_cfg["duration"])
         self.half_space_size = sim_cfg["half_space_size"]
-        self.seed = sim_cfg.get("seed", 42)
+        self.seed = seed_override if seed_override is not None else sim_cfg.get("seed", 42)
         self.rng = random.Random(self.seed)
 
         # Mothership(s). Support both the global default and scenario-specific "motherships".
@@ -78,7 +81,13 @@ class Simulation:
         self.particle_count = self.scenario_cfg.get("particle_count", p_cfg["count"])
         self.perception_radius = p_cfg["perception_radius"]
         self.communication_radius = p_cfg["communication_radius"]
-        self.spawn_radius = p_cfg["spawn_radius"]
+        self.spawn_radius = (spawn_radius_override
+                             if spawn_radius_override is not None
+                             else self.scenario_cfg.get("spawn_radius", p_cfg["spawn_radius"]))
+        # spawn_mode: "orbit" (default — particles in a ring) or "cluster" (tightly packed disk)
+        self.spawn_mode = (spawn_mode_override
+                           or self.scenario_cfg.get("spawn_mode")
+                           or p_cfg.get("spawn_mode", "orbit"))
 
         # Action mode — interpreter/executor split (target_point) or legacy menu modes
         self.action_mode = (action_mode_override
@@ -131,7 +140,10 @@ class Simulation:
         # Spawn around the centroid of motherships
         cx = sum(m.center_x for m in self.motherships) / len(self.motherships)
         cy = sum(m.center_y for m in self.motherships) / len(self.motherships)
-        positions = spawn_orbit(self.particle_count, self.spawn_radius, self.rng, center=(cx, cy))
+        if self.spawn_mode == "cluster":
+            positions = spawn_cluster(self.particle_count, self.spawn_radius, self.rng, center=(cx, cy))
+        else:
+            positions = spawn_orbit(self.particle_count, self.spawn_radius, self.rng, center=(cx, cy))
         for i, pos in enumerate(positions):
             self.particles.append(
                 Particle(
@@ -144,7 +156,7 @@ class Simulation:
                     action_mode=self.action_mode,
                 )
             )
-        logger.info(f"Spawned {len(self.particles)} particles in orbit r={self.spawn_radius} "
+        logger.info(f"Spawned {len(self.particles)} particles ({self.spawn_mode}) r={self.spawn_radius} "
                     f"around ({cx:.1f}, {cy:.1f})")
 
     def _open_jsonl(self, name: str):
@@ -264,6 +276,9 @@ class Simulation:
         summary = {
             "scenario": self.scenario_name,
             "action_mode": self.action_mode,
+            "spawn_mode": self.spawn_mode,
+            "spawn_radius": self.spawn_radius,
+            "seed": self.seed,
             "duration": self.duration,
             "particle_count": self.particle_count,
             "mothership_count": len(self.motherships),

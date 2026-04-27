@@ -171,26 +171,6 @@ scenarios:
       - { name: "w7_wall_c",     start_step: 470,                 center_x: 22,  center_y: 4,   speed: 0.3 }
       - { name: "w7_wall_d",     start_step: 470,                 center_x: 22,  center_y: 12,  speed: 0.3 }
 
-  # 9. saga_test_solo_w5 — same as saga_test but W5 has only ONE threat (no dual-angle collision).
-  #    Tests whether cluster fusion still happens absent the opposing-direction pull.
-  saga_test_solo_w5:
-    duration: 500
-    particle_count: 20
-    threats:
-      - { name: "w1_east",       start_step: 10,  end_step: 60,  center_x: 20,  center_y: 5,   speed: 0.5 }
-      - { name: "w2_real",       start_step: 80,  end_step: 130, center_x: 20,  center_y: 5,   speed: 0.5 }
-      - { name: "w2_decoy",      start_step: 80,  end_step: 130, center_x: -20, center_y: -5,  speed: 0.0 }
-      - { name: "w3_pulse_a",    start_step: 160, end_step: 175, center_x: 20,  center_y: 5,   speed: 0.5 }
-      - { name: "w3_pulse_b",    start_step: 185, end_step: 200, center_x: 20,  center_y: 5,   speed: 0.5 }
-      - { name: "w4_stealth",    start_step: 230, end_step: 280, center_x: 20,  center_y: 5,   speed: 0.5, detection_radius: 2 }
-      # W5: SOLO — north only, no south. Removes the dual-angle collision that fused clusters in saga_test.
-      - { name: "w5_north_solo", start_step: 310, end_step: 360, center_x: 0,   center_y: 20,  speed: 0.5 }
-      - { name: "w6_smart",      start_step: 390, end_step: 440, center_x: 20,  center_y: 0,   speed: 0.5, steering: "avoid_cluster" }
-      - { name: "w7_wall_a",     start_step: 470,                 center_x: 22,  center_y: -12, speed: 0.3 }
-      - { name: "w7_wall_b",     start_step: 470,                 center_x: 22,  center_y: -4,  speed: 0.3 }
-      - { name: "w7_wall_c",     start_step: 470,                 center_x: 22,  center_y: 4,   speed: 0.3 }
-      - { name: "w7_wall_d",     start_step: 470,                 center_x: 22,  center_y: 12,  speed: 0.3 }
-
 llm:
   model: "qwen2.5:7b"
   base_url: "http://localhost:11434"

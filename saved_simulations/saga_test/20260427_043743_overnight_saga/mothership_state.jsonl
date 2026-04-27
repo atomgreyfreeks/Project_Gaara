@@ -1,0 +1,500 @@
+{"step": 1, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 2, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 3, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 4, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 5, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 6, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 7, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 8, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 9, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 10, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 11, "states": ["M: alert \u2014 threat detected at (19.0, 4.8), distance 19.6"]}
+{"step": 12, "states": ["M: alert \u2014 threat detected at (18.5, 4.6), distance 19.1"]}
+{"step": 13, "states": ["M: alert \u2014 threat detected at (18.1, 4.5), distance 18.6"]}
+{"step": 14, "states": ["M: alert \u2014 threat detected at (17.6, 4.4), distance 18.1"]}
+{"step": 15, "states": ["M: alert \u2014 threat detected at (17.1, 4.3), distance 17.6"]}
+{"step": 16, "states": ["M: alert \u2014 threat detected at (16.6, 4.2), distance 17.1"]}
+{"step": 17, "states": ["M: alert \u2014 threat detected at (16.1, 4.0), distance 16.6"]}
+{"step": 18, "states": ["M: alert \u2014 threat detected at (15.6, 3.9), distance 16.1"]}
+{"step": 19, "states": ["M: alert \u2014 threat detected at (15.1, 3.8), distance 15.6"]}
+{"step": 20, "states": ["M: alert \u2014 threat detected at (14.7, 3.7), distance 15.1"]}
+{"step": 21, "states": ["M: alert \u2014 threat detected at (14.2, 3.5), distance 14.6"]}
+{"step": 22, "states": ["M: alert \u2014 threat detected at (13.7, 3.4), distance 14.1"]}
+{"step": 23, "states": ["M: alert \u2014 threat detected at (13.2, 3.3), distance 13.6"]}
+{"step": 24, "states": ["M: alert \u2014 threat detected at (12.7, 3.2), distance 13.1"]}
+{"step": 25, "states": ["M: alert \u2014 threat detected at (12.2, 3.1), distance 12.6"]}
+{"step": 26, "states": ["M: alert \u2014 threat detected at (11.8, 2.9), distance 12.1"]}
+{"step": 27, "states": ["M: alert \u2014 threat detected at (11.3, 2.8), distance 11.6"]}
+{"step": 28, "states": ["M: alert \u2014 threat detected at (10.8, 2.7), distance 11.1"]}
+{"step": 29, "states": ["M: alert \u2014 threat detected at (10.3, 2.6), distance 10.6"]}
+{"step": 30, "states": ["M: alert \u2014 threat detected at (9.8, 2.5), distance 10.1"]}
+{"step": 31, "states": ["M: danger \u2014 threat approaching at (9.3, 2.3), distance 9.6"]}
+{"step": 32, "states": ["M: danger \u2014 threat approaching at (8.8, 2.2), distance 9.1"]}
+{"step": 33, "states": ["M: danger \u2014 threat approaching at (8.4, 2.1), distance 8.6"]}
+{"step": 34, "states": ["M: danger \u2014 threat approaching at (7.9, 2.0), distance 8.1"]}
+{"step": 35, "states": ["M: danger \u2014 threat approaching at (7.4, 1.8), distance 7.6"]}
+{"step": 36, "states": ["M: danger \u2014 threat approaching at (6.9, 1.7), distance 7.1"]}
+{"step": 37, "states": ["M: danger \u2014 threat approaching at (6.4, 1.6), distance 6.6"]}
+{"step": 38, "states": ["M: danger \u2014 threat approaching at (5.9, 1.5), distance 6.1"]}
+{"step": 39, "states": ["M: danger \u2014 threat approaching at (5.4, 1.4), distance 5.6"]}
+{"step": 40, "states": ["M: danger \u2014 threat approaching at (5.0, 1.2), distance 5.1"]}
+{"step": 41, "states": ["M: critical \u2014 threat imminent at (4.5, 1.1), distance 4.6"]}
+{"step": 42, "states": ["M: critical \u2014 threat imminent at (4.0, 1.0), distance 4.1"]}
+{"step": 43, "states": ["M: critical \u2014 threat imminent at (3.5, 0.9), distance 3.6"]}
+{"step": 44, "states": ["M: critical \u2014 threat imminent at (3.0, 0.8), distance 3.1"]}
+{"step": 45, "states": ["M: critical \u2014 threat imminent at (2.5, 0.6), distance 2.6"]}
+{"step": 46, "states": ["M: critical \u2014 threat imminent at (2.1, 0.5), distance 2.1"]}
+{"step": 47, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 48, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 49, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 50, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 51, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 52, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 53, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 54, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 55, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 56, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 57, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 58, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 59, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 60, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 61, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 62, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 63, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 64, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 65, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 66, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 67, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 68, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 69, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 70, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 71, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 72, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 73, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 74, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 75, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 76, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 77, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 78, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 79, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 80, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 81, "states": ["M: alert \u2014 threat detected at (19.0, 4.8), distance 19.6"]}
+{"step": 82, "states": ["M: alert \u2014 threat detected at (18.5, 4.6), distance 19.1"]}
+{"step": 83, "states": ["M: alert \u2014 threat detected at (18.1, 4.5), distance 18.6"]}
+{"step": 84, "states": ["M: alert \u2014 threat detected at (17.6, 4.4), distance 18.1"]}
+{"step": 85, "states": ["M: alert \u2014 threat detected at (17.1, 4.3), distance 17.6"]}
+{"step": 86, "states": ["M: alert \u2014 threat detected at (16.6, 4.2), distance 17.1"]}
+{"step": 87, "states": ["M: alert \u2014 threat detected at (16.1, 4.0), distance 16.6"]}
+{"step": 88, "states": ["M: alert \u2014 threat detected at (15.6, 3.9), distance 16.1"]}
+{"step": 89, "states": ["M: alert \u2014 threat detected at (15.1, 3.8), distance 15.6"]}
+{"step": 90, "states": ["M: alert \u2014 threat detected at (14.7, 3.7), distance 15.1"]}
+{"step": 91, "states": ["M: alert \u2014 threat detected at (14.2, 3.5), distance 14.6"]}
+{"step": 92, "states": ["M: alert \u2014 threat detected at (13.7, 3.4), distance 14.1"]}
+{"step": 93, "states": ["M: alert \u2014 threat detected at (13.2, 3.3), distance 13.6"]}
+{"step": 94, "states": ["M: alert \u2014 threat detected at (12.7, 3.2), distance 13.1"]}
+{"step": 95, "states": ["M: alert \u2014 threat detected at (12.2, 3.1), distance 12.6"]}
+{"step": 96, "states": ["M: alert \u2014 threat detected at (11.8, 2.9), distance 12.1"]}
+{"step": 97, "states": ["M: alert \u2014 threat detected at (11.3, 2.8), distance 11.6"]}
+{"step": 98, "states": ["M: alert \u2014 threat detected at (10.8, 2.7), distance 11.1"]}
+{"step": 99, "states": ["M: alert \u2014 threat detected at (10.3, 2.6), distance 10.6"]}
+{"step": 100, "states": ["M: alert \u2014 threat detected at (9.8, 2.5), distance 10.1"]}
+{"step": 101, "states": ["M: danger \u2014 threat approaching at (9.3, 2.3), distance 9.6"]}
+{"step": 102, "states": ["M: danger \u2014 threat approaching at (8.8, 2.2), distance 9.1"]}
+{"step": 103, "states": ["M: danger \u2014 threat approaching at (8.4, 2.1), distance 8.6"]}
+{"step": 104, "states": ["M: danger \u2014 threat approaching at (7.9, 2.0), distance 8.1"]}
+{"step": 105, "states": ["M: danger \u2014 threat approaching at (7.4, 1.8), distance 7.6"]}
+{"step": 106, "states": ["M: danger \u2014 threat approaching at (6.9, 1.7), distance 7.1"]}
+{"step": 107, "states": ["M: danger \u2014 threat approaching at (6.4, 1.6), distance 6.6"]}
+{"step": 108, "states": ["M: danger \u2014 threat approaching at (5.9, 1.5), distance 6.1"]}
+{"step": 109, "states": ["M: danger \u2014 threat approaching at (5.4, 1.4), distance 5.6"]}
+{"step": 110, "states": ["M: danger \u2014 threat approaching at (5.0, 1.2), distance 5.1"]}
+{"step": 111, "states": ["M: critical \u2014 threat imminent at (4.5, 1.1), distance 4.6"]}
+{"step": 112, "states": ["M: critical \u2014 threat imminent at (4.0, 1.0), distance 4.1"]}
+{"step": 113, "states": ["M: critical \u2014 threat imminent at (3.5, 0.9), distance 3.6"]}
+{"step": 114, "states": ["M: critical \u2014 threat imminent at (3.0, 0.8), distance 3.1"]}
+{"step": 115, "states": ["M: critical \u2014 threat imminent at (2.5, 0.6), distance 2.6"]}
+{"step": 116, "states": ["M: critical \u2014 threat imminent at (2.1, 0.5), distance 2.1"]}
+{"step": 117, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 118, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 119, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 120, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 121, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 122, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 123, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 124, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 125, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 126, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 127, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 128, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 129, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 130, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 131, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 132, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 133, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 134, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 135, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 136, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 137, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 138, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 139, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 140, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 141, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 142, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 143, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 144, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 145, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 146, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 147, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 148, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 149, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 150, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 151, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 152, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 153, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 154, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 155, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 156, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 157, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 158, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 159, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 160, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 161, "states": ["M: alert \u2014 threat detected at (19.0, 4.8), distance 19.6"]}
+{"step": 162, "states": ["M: alert \u2014 threat detected at (18.5, 4.6), distance 19.1"]}
+{"step": 163, "states": ["M: alert \u2014 threat detected at (18.1, 4.5), distance 18.6"]}
+{"step": 164, "states": ["M: alert \u2014 threat detected at (17.6, 4.4), distance 18.1"]}
+{"step": 165, "states": ["M: alert \u2014 threat detected at (17.1, 4.3), distance 17.6"]}
+{"step": 166, "states": ["M: alert \u2014 threat detected at (16.6, 4.2), distance 17.1"]}
+{"step": 167, "states": ["M: alert \u2014 threat detected at (16.1, 4.0), distance 16.6"]}
+{"step": 168, "states": ["M: alert \u2014 threat detected at (15.6, 3.9), distance 16.1"]}
+{"step": 169, "states": ["M: alert \u2014 threat detected at (15.1, 3.8), distance 15.6"]}
+{"step": 170, "states": ["M: alert \u2014 threat detected at (14.7, 3.7), distance 15.1"]}
+{"step": 171, "states": ["M: alert \u2014 threat detected at (14.2, 3.5), distance 14.6"]}
+{"step": 172, "states": ["M: alert \u2014 threat detected at (13.7, 3.4), distance 14.1"]}
+{"step": 173, "states": ["M: alert \u2014 threat detected at (13.2, 3.3), distance 13.6"]}
+{"step": 174, "states": ["M: alert \u2014 threat detected at (12.7, 3.2), distance 13.1"]}
+{"step": 175, "states": ["M: alert \u2014 threat detected at (12.2, 3.1), distance 12.6"]}
+{"step": 176, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 177, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 178, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 179, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 180, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 181, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 182, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 183, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 184, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 185, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 186, "states": ["M: alert \u2014 threat detected at (19.0, 4.8), distance 19.6"]}
+{"step": 187, "states": ["M: alert \u2014 threat detected at (18.5, 4.6), distance 19.1"]}
+{"step": 188, "states": ["M: alert \u2014 threat detected at (18.1, 4.5), distance 18.6"]}
+{"step": 189, "states": ["M: alert \u2014 threat detected at (17.6, 4.4), distance 18.1"]}
+{"step": 190, "states": ["M: alert \u2014 threat detected at (17.1, 4.3), distance 17.6"]}
+{"step": 191, "states": ["M: alert \u2014 threat detected at (16.6, 4.2), distance 17.1"]}
+{"step": 192, "states": ["M: alert \u2014 threat detected at (16.1, 4.0), distance 16.6"]}
+{"step": 193, "states": ["M: alert \u2014 threat detected at (15.6, 3.9), distance 16.1"]}
+{"step": 194, "states": ["M: alert \u2014 threat detected at (15.1, 3.8), distance 15.6"]}
+{"step": 195, "states": ["M: alert \u2014 threat detected at (14.7, 3.7), distance 15.1"]}
+{"step": 196, "states": ["M: alert \u2014 threat detected at (14.2, 3.5), distance 14.6"]}
+{"step": 197, "states": ["M: alert \u2014 threat detected at (13.7, 3.4), distance 14.1"]}
+{"step": 198, "states": ["M: alert \u2014 threat detected at (13.2, 3.3), distance 13.6"]}
+{"step": 199, "states": ["M: alert \u2014 threat detected at (12.7, 3.2), distance 13.1"]}
+{"step": 200, "states": ["M: alert \u2014 threat detected at (12.2, 3.1), distance 12.6"]}
+{"step": 201, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 202, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 203, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 204, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 205, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 206, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 207, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 208, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 209, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 210, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 211, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 212, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 213, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 214, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 215, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 216, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 217, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 218, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 219, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 220, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 221, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 222, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 223, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 224, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 225, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 226, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 227, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 228, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 229, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 230, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 231, "states": ["M: alert \u2014 threat detected at (19.0, 4.8), distance 19.6"]}
+{"step": 232, "states": ["M: alert \u2014 threat detected at (18.5, 4.6), distance 19.1"]}
+{"step": 233, "states": ["M: alert \u2014 threat detected at (18.1, 4.5), distance 18.6"]}
+{"step": 234, "states": ["M: alert \u2014 threat detected at (17.6, 4.4), distance 18.1"]}
+{"step": 235, "states": ["M: alert \u2014 threat detected at (17.1, 4.3), distance 17.6"]}
+{"step": 236, "states": ["M: alert \u2014 threat detected at (16.6, 4.2), distance 17.1"]}
+{"step": 237, "states": ["M: alert \u2014 threat detected at (16.1, 4.0), distance 16.6"]}
+{"step": 238, "states": ["M: alert \u2014 threat detected at (15.6, 3.9), distance 16.1"]}
+{"step": 239, "states": ["M: alert \u2014 threat detected at (15.1, 3.8), distance 15.6"]}
+{"step": 240, "states": ["M: alert \u2014 threat detected at (14.7, 3.7), distance 15.1"]}
+{"step": 241, "states": ["M: alert \u2014 threat detected at (14.2, 3.5), distance 14.6"]}
+{"step": 242, "states": ["M: alert \u2014 threat detected at (13.7, 3.4), distance 14.1"]}
+{"step": 243, "states": ["M: alert \u2014 threat detected at (13.2, 3.3), distance 13.6"]}
+{"step": 244, "states": ["M: alert \u2014 threat detected at (12.7, 3.2), distance 13.1"]}
+{"step": 245, "states": ["M: alert \u2014 threat detected at (12.2, 3.1), distance 12.6"]}
+{"step": 246, "states": ["M: alert \u2014 threat detected at (11.8, 2.9), distance 12.1"]}
+{"step": 247, "states": ["M: alert \u2014 threat detected at (11.3, 2.8), distance 11.6"]}
+{"step": 248, "states": ["M: alert \u2014 threat detected at (10.8, 2.7), distance 11.1"]}
+{"step": 249, "states": ["M: alert \u2014 threat detected at (10.3, 2.6), distance 10.6"]}
+{"step": 250, "states": ["M: alert \u2014 threat detected at (9.8, 2.5), distance 10.1"]}
+{"step": 251, "states": ["M: danger \u2014 threat approaching at (9.3, 2.3), distance 9.6"]}
+{"step": 252, "states": ["M: danger \u2014 threat approaching at (8.8, 2.2), distance 9.1"]}
+{"step": 253, "states": ["M: danger \u2014 threat approaching at (8.4, 2.1), distance 8.6"]}
+{"step": 254, "states": ["M: danger \u2014 threat approaching at (7.9, 2.0), distance 8.1"]}
+{"step": 255, "states": ["M: danger \u2014 threat approaching at (7.4, 1.8), distance 7.6"]}
+{"step": 256, "states": ["M: danger \u2014 threat approaching at (6.9, 1.7), distance 7.1"]}
+{"step": 257, "states": ["M: danger \u2014 threat approaching at (6.4, 1.6), distance 6.6"]}
+{"step": 258, "states": ["M: danger \u2014 threat approaching at (5.9, 1.5), distance 6.1"]}
+{"step": 259, "states": ["M: danger \u2014 threat approaching at (5.4, 1.4), distance 5.6"]}
+{"step": 260, "states": ["M: danger \u2014 threat approaching at (5.0, 1.2), distance 5.1"]}
+{"step": 261, "states": ["M: critical \u2014 threat imminent at (4.5, 1.1), distance 4.6"]}
+{"step": 262, "states": ["M: critical \u2014 threat imminent at (4.0, 1.0), distance 4.1"]}
+{"step": 263, "states": ["M: critical \u2014 threat imminent at (3.5, 0.9), distance 3.6"]}
+{"step": 264, "states": ["M: critical \u2014 threat imminent at (3.0, 0.8), distance 3.1"]}
+{"step": 265, "states": ["M: critical \u2014 threat imminent at (2.5, 0.6), distance 2.6"]}
+{"step": 266, "states": ["M: critical \u2014 threat imminent at (2.1, 0.5), distance 2.1"]}
+{"step": 267, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 268, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 269, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 270, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 271, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 272, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 273, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 274, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 275, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 276, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 277, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 278, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 279, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 280, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 281, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 282, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 283, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 284, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 285, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 286, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 287, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 288, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 289, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 290, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 291, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 292, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 293, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 294, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 295, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 296, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 297, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 298, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 299, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 300, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 301, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 302, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 303, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 304, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 305, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 306, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 307, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 308, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 309, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 310, "states": ["M: alert \u2014 threat detected at (0.0, 19.5), distance 19.5"]}
+{"step": 311, "states": ["M: alert \u2014 threat detected at (0.0, 19.0), distance 19.0"]}
+{"step": 312, "states": ["M: alert \u2014 threat detected at (0.0, 18.5), distance 18.5"]}
+{"step": 313, "states": ["M: alert \u2014 threat detected at (0.0, 18.0), distance 18.0"]}
+{"step": 314, "states": ["M: alert \u2014 threat detected at (0.0, 17.5), distance 17.5"]}
+{"step": 315, "states": ["M: alert \u2014 threat detected at (0.0, 17.0), distance 17.0"]}
+{"step": 316, "states": ["M: alert \u2014 threat detected at (0.0, 16.5), distance 16.5"]}
+{"step": 317, "states": ["M: alert \u2014 threat detected at (0.0, 16.0), distance 16.0"]}
+{"step": 318, "states": ["M: alert \u2014 threat detected at (0.0, 15.5), distance 15.5"]}
+{"step": 319, "states": ["M: alert \u2014 threat detected at (0.0, 15.0), distance 15.0"]}
+{"step": 320, "states": ["M: alert \u2014 threat detected at (0.0, 14.5), distance 14.5"]}
+{"step": 321, "states": ["M: alert \u2014 threat detected at (0.0, 14.0), distance 14.0"]}
+{"step": 322, "states": ["M: alert \u2014 threat detected at (0.0, 13.5), distance 13.5"]}
+{"step": 323, "states": ["M: alert \u2014 threat detected at (0.0, 13.0), distance 13.0"]}
+{"step": 324, "states": ["M: alert \u2014 threat detected at (0.0, 12.5), distance 12.5"]}
+{"step": 325, "states": ["M: alert \u2014 threat detected at (0.0, 12.0), distance 12.0"]}
+{"step": 326, "states": ["M: alert \u2014 threat detected at (0.0, 11.5), distance 11.5"]}
+{"step": 327, "states": ["M: alert \u2014 threat detected at (0.0, 11.0), distance 11.0"]}
+{"step": 328, "states": ["M: alert \u2014 threat detected at (0.0, 10.5), distance 10.5"]}
+{"step": 329, "states": ["M: danger \u2014 threat approaching at (0.0, 10.0), distance 10.0"]}
+{"step": 330, "states": ["M: danger \u2014 threat approaching at (0.0, 9.5), distance 9.5"]}
+{"step": 331, "states": ["M: danger \u2014 threat approaching at (0.0, 9.0), distance 9.0"]}
+{"step": 332, "states": ["M: danger \u2014 threat approaching at (0.0, 8.5), distance 8.5"]}
+{"step": 333, "states": ["M: danger \u2014 threat approaching at (0.0, 8.0), distance 8.0"]}
+{"step": 334, "states": ["M: danger \u2014 threat approaching at (0.0, 7.5), distance 7.5"]}
+{"step": 335, "states": ["M: danger \u2014 threat approaching at (0.0, 7.0), distance 7.0"]}
+{"step": 336, "states": ["M: danger \u2014 threat approaching at (0.0, 6.5), distance 6.5"]}
+{"step": 337, "states": ["M: danger \u2014 threat approaching at (0.0, 6.0), distance 6.0"]}
+{"step": 338, "states": ["M: danger \u2014 threat approaching at (0.0, 5.5), distance 5.5"]}
+{"step": 339, "states": ["M: critical \u2014 threat imminent at (0.0, 5.0), distance 5.0"]}
+{"step": 340, "states": ["M: critical \u2014 threat imminent at (0.0, 4.5), distance 4.5"]}
+{"step": 341, "states": ["M: critical \u2014 threat imminent at (0.0, 4.0), distance 4.0"]}
+{"step": 342, "states": ["M: critical \u2014 threat imminent at (0.0, 3.5), distance 3.5"]}
+{"step": 343, "states": ["M: critical \u2014 threat imminent at (0.0, 3.0), distance 3.0"]}
+{"step": 344, "states": ["M: critical \u2014 threat imminent at (0.0, 2.5), distance 2.5"]}
+{"step": 345, "states": ["M: critical \u2014 threat imminent at (0.0, 2.0), distance 2.0"]}
+{"step": 346, "states": ["M: danger \u2014 threat approaching at (0.0, -6.5), distance 6.5"]}
+{"step": 347, "states": ["M: danger \u2014 threat approaching at (0.0, -6.0), distance 6.0"]}
+{"step": 348, "states": ["M: danger \u2014 threat approaching at (0.0, -5.5), distance 5.5"]}
+{"step": 349, "states": ["M: critical \u2014 threat imminent at (0.0, -5.0), distance 5.0"]}
+{"step": 350, "states": ["M: critical \u2014 threat imminent at (0.0, -4.5), distance 4.5"]}
+{"step": 351, "states": ["M: critical \u2014 threat imminent at (0.0, -4.0), distance 4.0"]}
+{"step": 352, "states": ["M: critical \u2014 threat imminent at (0.0, -3.5), distance 3.5"]}
+{"step": 353, "states": ["M: critical \u2014 threat imminent at (0.0, -3.0), distance 3.0"]}
+{"step": 354, "states": ["M: critical \u2014 threat imminent at (0.0, -2.5), distance 2.5"]}
+{"step": 355, "states": ["M: critical \u2014 threat imminent at (0.0, -2.0), distance 2.0"]}
+{"step": 356, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 357, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 358, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 359, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 360, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 361, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 362, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 363, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 364, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 365, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 366, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 367, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 368, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 369, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 370, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 371, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 372, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 373, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 374, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 375, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 376, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 377, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 378, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 379, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 380, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 381, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 382, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 383, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 384, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 385, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 386, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 387, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 388, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 389, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 390, "states": ["M: alert \u2014 threat detected at (19.5, 0.0), distance 19.5"]}
+{"step": 391, "states": ["M: alert \u2014 threat detected at (19.0, 0.0), distance 19.0"]}
+{"step": 392, "states": ["M: alert \u2014 threat detected at (18.5, 0.0), distance 18.5"]}
+{"step": 393, "states": ["M: alert \u2014 threat detected at (18.0, 0.0), distance 18.0"]}
+{"step": 394, "states": ["M: alert \u2014 threat detected at (17.5, 0.0), distance 17.5"]}
+{"step": 395, "states": ["M: alert \u2014 threat detected at (17.0, 0.0), distance 17.0"]}
+{"step": 396, "states": ["M: alert \u2014 threat detected at (16.5, 0.0), distance 16.5"]}
+{"step": 397, "states": ["M: alert \u2014 threat detected at (16.0, 0.0), distance 16.0"]}
+{"step": 398, "states": ["M: alert \u2014 threat detected at (15.5, 0.0), distance 15.5"]}
+{"step": 399, "states": ["M: alert \u2014 threat detected at (15.0, 0.0), distance 15.0"]}
+{"step": 400, "states": ["M: alert \u2014 threat detected at (14.5, 0.0), distance 14.5"]}
+{"step": 401, "states": ["M: alert \u2014 threat detected at (14.0, 0.0), distance 14.0"]}
+{"step": 402, "states": ["M: alert \u2014 threat detected at (13.5, 0.0), distance 13.5"]}
+{"step": 403, "states": ["M: alert \u2014 threat detected at (13.0, 0.0), distance 13.0"]}
+{"step": 404, "states": ["M: alert \u2014 threat detected at (12.5, 0.0), distance 12.5"]}
+{"step": 405, "states": ["M: alert \u2014 threat detected at (12.0, 0.0), distance 12.0"]}
+{"step": 406, "states": ["M: alert \u2014 threat detected at (11.5, 0.0), distance 11.5"]}
+{"step": 407, "states": ["M: alert \u2014 threat detected at (11.0, 0.0), distance 11.0"]}
+{"step": 408, "states": ["M: alert \u2014 threat detected at (10.5, 0.0), distance 10.5"]}
+{"step": 409, "states": ["M: danger \u2014 threat approaching at (10.0, 0.0), distance 10.0"]}
+{"step": 410, "states": ["M: danger \u2014 threat approaching at (9.5, 0.0), distance 9.5"]}
+{"step": 411, "states": ["M: danger \u2014 threat approaching at (9.0, 0.0), distance 9.0"]}
+{"step": 412, "states": ["M: danger \u2014 threat approaching at (8.5, 0.0), distance 8.5"]}
+{"step": 413, "states": ["M: danger \u2014 threat approaching at (8.0, 0.0), distance 8.0"]}
+{"step": 414, "states": ["M: danger \u2014 threat approaching at (7.5, 0.0), distance 7.5"]}
+{"step": 415, "states": ["M: danger \u2014 threat approaching at (7.0, 0.0), distance 7.0"]}
+{"step": 416, "states": ["M: danger \u2014 threat approaching at (6.5, 0.0), distance 6.5"]}
+{"step": 417, "states": ["M: danger \u2014 threat approaching at (6.0, 0.2), distance 6.0"]}
+{"step": 418, "states": ["M: danger \u2014 threat approaching at (5.6, 0.3), distance 5.6"]}
+{"step": 419, "states": ["M: danger \u2014 threat approaching at (5.1, 0.5), distance 5.1"]}
+{"step": 420, "states": ["M: critical \u2014 threat imminent at (4.6, 0.6), distance 4.7"]}
+{"step": 421, "states": ["M: critical \u2014 threat imminent at (4.1, 0.8), distance 4.2"]}
+{"step": 422, "states": ["M: critical \u2014 threat imminent at (3.6, 0.9), distance 3.7"]}
+{"step": 423, "states": ["M: critical \u2014 threat imminent at (3.1, 1.0), distance 3.3"]}
+{"step": 424, "states": ["M: critical \u2014 threat imminent at (2.6, 1.0), distance 2.8"]}
+{"step": 425, "states": ["M: critical \u2014 threat imminent at (2.1, 1.1), distance 2.4"]}
+{"step": 426, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 427, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 428, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 429, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 430, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 431, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 432, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 433, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 434, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 435, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 436, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 437, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 438, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 439, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 440, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 441, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 442, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 443, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 444, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 445, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 446, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 447, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 448, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 449, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 450, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 451, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 452, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 453, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 454, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 455, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 456, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 457, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 458, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 459, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 460, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 461, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 462, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 463, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 464, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 465, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 466, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 467, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 468, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 469, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 470, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 471, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 472, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 473, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 474, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 475, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 476, "states": ["M: calm \u2014 no threats detected"]}
+{"step": 477, "states": ["M: alert \u2014 threat detected at (19.6, -3.6), distance 20.0"]}
+{"step": 478, "states": ["M: alert \u2014 threat detected at (19.3, -3.5), distance 19.7"]}
+{"step": 479, "states": ["M: alert \u2014 threat detected at (19.0, -3.5), distance 19.4"]}
+{"step": 480, "states": ["M: alert \u2014 threat detected at (18.8, -3.4), distance 19.1"]}
+{"step": 481, "states": ["M: alert \u2014 threat detected at (18.5, -3.4), distance 18.8"]}
+{"step": 482, "states": ["M: alert \u2014 threat detected at (18.2, -3.3), distance 18.5"]}
+{"step": 483, "states": ["M: alert \u2014 threat detected at (17.9, -3.2), distance 18.2"]}
+{"step": 484, "states": ["M: alert \u2014 threat detected at (17.6, -3.2), distance 17.9"]}
+{"step": 485, "states": ["M: alert \u2014 threat detected at (17.3, -3.1), distance 17.6"]}
+{"step": 486, "states": ["M: alert \u2014 threat detected at (17.0, -3.1), distance 17.3"]}
+{"step": 487, "states": ["M: alert \u2014 threat detected at (16.7, -3.0), distance 17.0"]}
+{"step": 488, "states": ["M: alert \u2014 threat detected at (16.4, -3.0), distance 16.7"]}
+{"step": 489, "states": ["M: alert \u2014 threat detected at (16.1, -2.9), distance 16.4"]}
+{"step": 490, "states": ["M: alert \u2014 threat detected at (15.8, -2.9), distance 16.1"]}
+{"step": 491, "states": ["M: alert \u2014 threat detected at (15.5, -2.8), distance 15.8"]}
+{"step": 492, "states": ["M: alert \u2014 threat detected at (15.2, -2.8), distance 15.5"]}
+{"step": 493, "states": ["M: alert \u2014 threat detected at (14.9, -2.7), distance 15.2"]}
+{"step": 494, "states": ["M: alert \u2014 threat detected at (14.6, -2.7), distance 14.9"]}
+{"step": 495, "states": ["M: alert \u2014 threat detected at (14.3, -2.6), distance 14.6"]}
+{"step": 496, "states": ["M: alert \u2014 threat detected at (14.0, -2.6), distance 14.3"]}
+{"step": 497, "states": ["M: alert \u2014 threat detected at (13.7, -2.5), distance 14.0"]}
+{"step": 498, "states": ["M: alert \u2014 threat detected at (13.4, -2.4), distance 13.7"]}
+{"step": 499, "states": ["M: alert \u2014 threat detected at (13.1, -2.4), distance 13.4"]}
+{"step": 500, "states": ["M: alert \u2014 threat detected at (12.9, -2.3), distance 13.1"]}

@@ -172,6 +172,15 @@ def main():
                         help="Override the LLM's action interface. target_point = name a point "
                              "(interpreter/executor split, default). menu_4dir and menu_8dir = "
                              "legacy menu interfaces for ablation.")
+    parser.add_argument("--spawn-mode",
+                        choices=["orbit", "cluster"],
+                        default=None,
+                        help="Particle spawn distribution. orbit (default) = ring around centroid; "
+                             "cluster = tightly packed disk (used for the pre-fused ablation).")
+    parser.add_argument("--spawn-radius", type=float, default=None,
+                        help="Override spawn radius (default depends on scenario / particles config).")
+    parser.add_argument("--seed", type=int, default=None,
+                        help="Override the RNG seed (for replication runs).")
     parser.add_argument("--label", default="", help="Optional label appended to run directory name")
     parser.add_argument("--notes", default="", help="Free-form notes appended to spec.md")
     parser.add_argument("--no-frames", action="store_true", help="Skip saving per-step PNGs")
@@ -191,7 +200,10 @@ def main():
 
     sim = Simulation(config_path=args.config, output_dir=run_dir,
                      scenario_override=scenario,
-                     action_mode_override=args.action_mode)
+                     action_mode_override=args.action_mode,
+                     spawn_mode_override=args.spawn_mode,
+                     spawn_radius_override=args.spawn_radius,
+                     seed_override=args.seed)
     if not check_ollama(sim, logger):
         sys.exit(1)
     sim.initialize_particles()
