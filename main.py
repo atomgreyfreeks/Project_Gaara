@@ -189,6 +189,10 @@ def main():
                         help="Override the scenario's step count.")
     parser.add_argument("--particle-count", type=int, default=None,
                         help="Override the scenario's particle count.")
+    parser.add_argument("--neutral-broadcast", action="store_true",
+                        help="Replace the Mothership's state broadcast with a relationally "
+                             "neutral string ('present'). Used for testing whether the broadcast "
+                             "itself is doing relational work independent of identity.")
     parser.add_argument("--label", default="", help="Optional label appended to run directory name")
     parser.add_argument("--notes", default="", help="Free-form notes appended to spec.md")
     parser.add_argument("--no-frames", action="store_true", help="Skip saving per-step PNGs")
@@ -214,7 +218,8 @@ def main():
                      seed_override=args.seed,
                      identity_override=args.identity,
                      duration_override=args.duration,
-                     particle_count_override=args.particle_count)
+                     particle_count_override=args.particle_count,
+                     neutral_broadcast=args.neutral_broadcast)
     if not check_ollama(sim, logger):
         sys.exit(1)
     sim.initialize_particles()

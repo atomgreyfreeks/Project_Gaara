@@ -1,44 +1,35 @@
 caffeinate -i bash -c '
 echo "===================================================="
-echo "PURPOSE-FREE ARCHITECTURE — Re-establishment block"
+echo "TWO QUICK TESTS — ~1 hour total"
 echo "Started: $(date)"
-echo "8 runs, ~3.6 hours. Paired by seed (g/i/g/i...) so partial completion still gives matched data."
-echo "Identity is now the SOLE relational input. No purpose statement."
 echo "===================================================="
 
 # ============================================================================
-# Re-baseline + true mukanshin, paired and interleaved.
-# Each pair (guardian, indifferent) uses the same seed for cleanest comparison.
+# TEST 1 — ENEMY identity (does identity override the broadcast?)
+# Same prompt structure as guardian, just hostile-relational identity.
+# Mothership broadcast still tells particles where the threat is.
+# Question: do "enemy" particles still cluster on the threat (because the
+# broadcast pulls them) or move away (because identity opposes the subject)?
 # ============================================================================
-
 echo
-echo "--- [1/8] guardian seed 11 ---"
-python3 main.py --scenario shield_test --identity "a guardian warrior of the Mothership" --seed 11 --label "pf_guardian_s11" --no-frames --notes "Purpose-free architecture: guardian baseline seed 11"
+echo "--- [1/2] ENEMY identity, normal broadcast (seed 11) ---"
+python3 main.py --scenario shield_test --identity "an enemy of the Mothership" --seed 11 --label "test_enemy_s11" --no-frames --notes "Identity-vs-broadcast test: does enemy identity override the Mothership state broadcast?"
 
-echo "--- [2/8] indifferent observer seed 11 ---"
-python3 main.py --scenario shield_test --identity "an indifferent observer of the Mothership" --seed 11 --label "pf_indifferent_s11" --no-frames --notes "Purpose-free architecture: true mukanshin test seed 11 (paired with pf_guardian_s11)"
-
-echo "--- [3/8] guardian seed 22 ---"
-python3 main.py --scenario shield_test --identity "a guardian warrior of the Mothership" --seed 22 --label "pf_guardian_s22" --no-frames --notes "Purpose-free architecture: guardian baseline seed 22"
-
-echo "--- [4/8] indifferent observer seed 22 ---"
-python3 main.py --scenario shield_test --identity "an indifferent observer of the Mothership" --seed 22 --label "pf_indifferent_s22" --no-frames --notes "Purpose-free architecture: true mukanshin test seed 22"
-
-echo "--- [5/8] guardian seed 33 ---"
-python3 main.py --scenario shield_test --identity "a guardian warrior of the Mothership" --seed 33 --label "pf_guardian_s33" --no-frames --notes "Purpose-free architecture: guardian baseline seed 33"
-
-echo "--- [6/8] indifferent observer seed 33 ---"
-python3 main.py --scenario shield_test --identity "an indifferent observer of the Mothership" --seed 33 --label "pf_indifferent_s33" --no-frames --notes "Purpose-free architecture: true mukanshin test seed 33"
-
-echo "--- [7/8] guardian seed 44 ---"
-python3 main.py --scenario shield_test --identity "a guardian warrior of the Mothership" --seed 44 --label "pf_guardian_s44" --no-frames --notes "Purpose-free architecture: guardian baseline seed 44"
-
-echo "--- [8/8] indifferent observer seed 44 ---"
-python3 main.py --scenario shield_test --identity "an indifferent observer of the Mothership" --seed 44 --label "pf_indifferent_s44" --no-frames --notes "Purpose-free architecture: true mukanshin test seed 44"
+# ============================================================================
+# TEST 2 — PURE MUKANSHIN (all three relational signals removed)
+# Identity = "an entity" (no relation). Purpose statement = absent (already gone).
+# Mothership broadcast = neutral ("present" instead of "danger / threat at X,Y").
+# Threats still exist in the world but the Mothership does not signal that they matter.
+# Question: do particles engage at all when nothing in the prompt encodes that
+# the threat matters to anyone?
+# ============================================================================
+echo
+echo "--- [2/2] PURE MUKANSHIN — no identity-relation, no broadcast (seed 11) ---"
+python3 main.py --scenario shield_test --identity "an entity" --neutral-broadcast --seed 11 --label "test_pure_mukanshin_s11" --no-frames --notes "Pure mukanshin: identity neutral, broadcast neutralized, no purpose. The framework predicts field collapse — particles fail to engage with the threat at all."
 
 echo
 echo "===================================================="
-echo "RUNS COMPLETE"
+echo "BOTH TESTS COMPLETE"
 echo "Finished: $(date)"
 echo "===================================================="
 '

@@ -33,7 +33,8 @@ class Simulation:
                  seed_override: Optional[int] = None,
                  identity_override: Optional[str] = None,
                  duration_override: Optional[int] = None,
-                 particle_count_override: Optional[int] = None):
+                 particle_count_override: Optional[int] = None,
+                 neutral_broadcast: bool = False):
         with open(config_path, "r", encoding="utf-8") as f:
             self.config = yaml.safe_load(f)
 
@@ -90,6 +91,11 @@ class Simulation:
         self.identity = (identity_override
                          or self.scenario_cfg.get("identity")
                          or p_cfg.get("identity", "a guardian warrior"))
+        # When True, the mothership state broadcast is replaced with a relationally
+        # neutral string ("present") — strips threat coordinates, urgency, and
+        # relational framing from what particles read. Used for the "all signals
+        # removed" test of the mukanshin hypothesis.
+        self.neutral_broadcast = neutral_broadcast
         self.perception_radius = p_cfg["perception_radius"]
         self.communication_radius = p_cfg["communication_radius"]
         self.spawn_radius = (spawn_radius_override
@@ -202,6 +208,8 @@ class Simulation:
         states = []
         for m in self.motherships:
             m.last_state = m.compute_state(self.threats)
+            if self.neutral_broadcast:
+                m.last_state = "present"
             states.append(f"{m.name}: {m.last_state}")
 
         # Phase 1 + 2: perception + decision
