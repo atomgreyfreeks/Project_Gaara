@@ -1,8 +1,23 @@
 """Mothership — passive entity that broadcasts a state string based on nearest threat."""
+import math
 from dataclasses import dataclass
 from typing import List, Tuple, Optional
 from threat import Threat
 from utils import distance
+
+
+_CARDINALS = ('east', 'northeast', 'north', 'northwest',
+              'west', 'southwest', 'south', 'southeast')
+
+
+def _cardinal_from(origin: Tuple[float, float], point: Tuple[float, float]) -> str:
+    """Coarse compass direction from origin to point — 8-sector for felt language."""
+    dx = point[0] - origin[0]
+    dy = point[1] - origin[1]
+    angle = math.degrees(math.atan2(dy, dx))
+    if angle < 0:
+        angle += 360.0
+    return _CARDINALS[int((angle + 22.5) / 45) % 8]
 
 
 @dataclass
@@ -48,18 +63,19 @@ class Mothership:
 
         if self.broadcast_style == "felt":
             # Felt-state broadcasts — the subject speaks what she feels, not what she
-            # detects. No coordinates, no distance numbers. Distant particles read
-            # emotional resonance, not surveillance data. This is closer to how
-            # Gaara's sand reads Gaara: through resonance with his interior state.
+            # detects. No coordinates, no distance numbers. Cardinal direction included
+            # so distant particles can orient toward the felt source. Reads as
+            # emotional resonance with directional weight, not surveillance data.
             if t is None:
                 return "calm. the world is still."
             d = distance(self.position, t.position)
+            direction = _cardinal_from(self.position, t.position)
             if d <= self.critical_radius:
-                return "afraid. it is upon me. my body knows danger."
+                return f"afraid. it is upon me from the {direction}. my body knows danger."
             if d <= self.danger_radius:
-                return "my heart quickens. presence is close. i feel unease."
+                return f"my heart quickens. presence is close from the {direction}. i feel unease."
             if d <= self.awareness_radius:
-                return "i sense something. presence in the distance. i am attentive."
+                return f"i sense something from the {direction}. i am attentive."
             return "calm. the world is still."
 
         # mechanical (default)

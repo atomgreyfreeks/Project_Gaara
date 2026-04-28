@@ -171,18 +171,16 @@ scenarios:
       - { name: "w7_wall_c",     start_step: 470,                 center_x: 22,  center_y: 4,   speed: 0.3 }
       - { name: "w7_wall_d",     start_step: 470,                 center_x: 22,  center_y: 12,  speed: 0.3 }
 
-  # 8.5. gaara_test — integrated test of "the sand reads the subject's interior."
-  #      Pairs with --felt-broadcast and --identity "a grain of the Mothership".
-  #      Threat is adaptive (avoid_cluster) on approach but commits to linear pursuit
-  #      once within commit_radius — guarantees the threat actually reaches the
-  #      Mothership so the swarm gets to manage a moving enemy through to engagement.
+  # 8.5. gaara_test — first integrated test of "the sand reads the subject's interior."
+  #      Pairs with --felt-broadcast and --identity "a grain of the Mothership" to test the
+  #      three Gaara upgrades together: felt-state subject voice, constitutive identity,
+  #      and an adaptive threat that probes around particle density.
   gaara_test:
-    duration: 80
+    duration: 60
     particle_count: 20
     threats:
       - { name: "presence", start_step: 4, center_x: 20, center_y: 5, speed: 0.5,
-          steering: "avoid_cluster", repel_weight: 0.4, attract_weight: 0.6,
-          sense_radius: 10, commit_radius: 8 }
+          steering: "avoid_cluster", repel_weight: 0.55, attract_weight: 0.45, sense_radius: 10 }
 
   # 9. saga_test_solo_w5 — same as saga_test but W5 has only ONE threat (no dual-angle collision).
   #    Tests whether cluster fusion still happens absent the opposing-direction pull.

@@ -19,6 +19,7 @@ class Threat:
     repel_weight: float = 0.3                   # avoid_cluster: how strongly to flee particle density
     attract_weight: float = 0.7                 # avoid_cluster: how strongly to seek the target
     sense_radius: float = 8.0                   # avoid_cluster: how far the threat "looks" for clusters
+    commit_radius: float = 0.0                  # within this distance of target, threat drops avoidance and pursues directly (0 = never commit)
     active: bool = False
     breached: bool = False
     was_active: bool = False                    # tracks if ever activated, for history
@@ -38,7 +39,11 @@ class Threat:
         if self.breached:
             return
 
-        if self.steering == "avoid_cluster" and particles:
+        # If within commit_radius of target, drop avoidance and pursue directly —
+        # the threat "commits" to the kill in the terminal phase.
+        committed = (self.commit_radius > 0
+                     and distance(self.position, self.target) <= self.commit_radius)
+        if self.steering == "avoid_cluster" and particles and not committed:
             self.position = self._avoid_cluster_step(
                 particles,
                 attract_weight=self.attract_weight,

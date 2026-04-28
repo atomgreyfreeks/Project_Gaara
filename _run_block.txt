@@ -1,19 +1,18 @@
 caffeinate -i bash -c '
 echo "===================================================="
-echo "GAARA TEST v1 — three upgrades together, one run"
+echo "GAARA TEST v2 — adaptive threat with terminal commit"
 echo "Started: $(date)"
-echo "Identity: \"a grain of the Mothership\""
-echo "Broadcast: felt-state (no coords)"
-echo "Threat: avoid_cluster steering, stronger weights"
+echo "Threat dodges on approach, commits within 8 units of Mothership."
+echo "Felt-state broadcast now includes direction (\"from the east\")."
 echo "===================================================="
 
 python3 main.py --scenario gaara_test \
   --identity "a grain of the Mothership" \
   --felt-broadcast \
   --seed 7 \
-  --label "gaara_v1" \
+  --label "gaara_v2" \
   --no-frames \
-  --notes "First integrated test of the three Gaara upgrades: felt-state subject voice, constitutive identity (the grain IS part of the Mothership), and adaptive threat that probes around particle density. No purpose statement. No coordinates in the broadcast. Watching for whether the sand reads emotional resonance and whether forms emerge from interpretation."
+  --notes "Gaara test v2: adaptive threat with commit_radius=8 (terminal pursuit guaranteed). Felt broadcast now includes 8-cardinal direction so distant grains can orient. Goal: observe both phases — evasive approach and engagement at the Mothership."
 
 echo
 echo "===================================================="

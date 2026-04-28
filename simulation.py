@@ -153,6 +153,7 @@ class Simulation:
                 repel_weight=t.get("repel_weight", 0.3),
                 attract_weight=t.get("attract_weight", 0.7),
                 sense_radius=t.get("sense_radius", 8.0),
+                commit_radius=t.get("commit_radius", 0.0),
             ))
 
         self.particles: List[Particle] = []
