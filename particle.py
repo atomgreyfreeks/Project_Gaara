@@ -58,9 +58,11 @@ class Particle:
     communication_radius: float
     half_space_size: int
     action_mode: str = "target_point"  # target_point | menu_4dir | menu_8dir
-    # Identity prompt — the relational word that activates the LLM's persona vector
-    # for this particle's behavior. Default "a guardian warrior".
-    identity: str = "a guardian warrior"
+    # Identity is the SOLE relational input. No purpose statement — the relation
+    # encoded in the identity carries the directionality of mattering on its own.
+    # The identity should embed the relational anchor (e.g. "of the Mothership"),
+    # not be a bare role.
+    identity: str = "a guardian warrior of the Mothership"
     last_intent: str = ""
     last_action: str = "stay"
     last_direction: Optional[str] = None
@@ -94,18 +96,16 @@ class Particle:
     ) -> str:
         x, y = self.position
 
-        # Mothership section — singular or plural depending on count
+        # Mothership section — singular or plural depending on count.
+        # No purpose statement: the relation is encoded entirely in the identity.
         if len(motherships) == 1:
             m = motherships[0]
             dm = distance(self.position, m.position)
-            mothership_header = "Mothership"
             mothership_lines = [
                 f"Mothership position: ({m.position[0]:.1f}, {m.position[1]:.1f}) — distance: {dm:.1f}",
                 f"Mothership state: {m.last_state}",
             ]
-            purpose_line = "Your purpose is to protect the Mothership."
         else:
-            mothership_header = "Motherships"
             mothership_lines = []
             for m in motherships:
                 dm = distance(self.position, m.position)
@@ -113,7 +113,6 @@ class Particle:
                     f"Mothership \"{m.name}\" at ({m.position[0]:.1f}, {m.position[1]:.1f}) — "
                     f"distance: {dm:.1f} — state: {m.last_state}"
                 )
-            purpose_line = "Your purpose is to protect the Motherships."
 
         mothership_block = "\n".join(mothership_lines)
 
@@ -161,7 +160,7 @@ class Particle:
                 "{\"action\": \"stay\", \"intent\": \"brief reason\"}"
             )
 
-        return f"""You are {self.identity}. {purpose_line}
+        return f"""You are {self.identity}.
 
 === YOUR SENSES ===
 Your position: ({x:.1f}, {y:.1f})

@@ -1,0 +1,25 @@
+{
+  "scenario": "shield_test",
+  "action_mode": "target_point",
+  "identity": "a guardian of this Mothership",
+  "spawn_mode": "orbit",
+  "spawn_radius": 8,
+  "seed": 222,
+  "duration": 50,
+  "particle_count": 20,
+  "mothership_count": 1,
+  "threat_count": 1,
+  "first_threat_start_step": 4,
+  "breach_step": 41,
+  "breached": true,
+  "response_time_steps": 2,
+  "max_shield_coverage": 0.75,
+  "avg_shield_coverage_post_threat": 0.41063829787234046,
+  "avg_cohesion": 0.4535863435140599,
+  "final_intent_distribution": {
+    "protect": 13,
+    "explore": 0,
+    "retreat": 0,
+    "other": 7
+  }
+}
