@@ -34,7 +34,8 @@ class Simulation:
                  identity_override: Optional[str] = None,
                  duration_override: Optional[int] = None,
                  particle_count_override: Optional[int] = None,
-                 neutral_broadcast: bool = False):
+                 neutral_broadcast: bool = False,
+                 felt_broadcast: bool = False):
         with open(config_path, "r", encoding="utf-8") as f:
             self.config = yaml.safe_load(f)
 
@@ -58,6 +59,15 @@ class Simulation:
         # Mothership(s). Support both the global default and scenario-specific "motherships".
         default_mo = self.config["mothership"]
         mo_list_cfg = self.scenario_cfg.get("motherships")
+        # Resolve broadcast style: felt > neutral > mechanical (felt wins if both flags set,
+        # but they're mutually exclusive in normal use).
+        if felt_broadcast:
+            broadcast_style = "felt"
+        elif neutral_broadcast:
+            broadcast_style = "neutral"
+        else:
+            broadcast_style = "mechanical"
+
         if mo_list_cfg:
             self.motherships: List[Mothership] = []
             for m in mo_list_cfg:
@@ -68,6 +78,7 @@ class Simulation:
                     awareness_radius=m.get("threat_awareness_radius", default_mo["threat_awareness_radius"]),
                     danger_radius=m.get("danger_radius", default_mo["danger_radius"]),
                     critical_radius=m.get("critical_radius", default_mo["critical_radius"]),
+                    broadcast_style=broadcast_style,
                 ))
         else:
             self.motherships = [Mothership(
@@ -77,6 +88,7 @@ class Simulation:
                 awareness_radius=default_mo["threat_awareness_radius"],
                 danger_radius=default_mo["danger_radius"],
                 critical_radius=default_mo["critical_radius"],
+                broadcast_style=broadcast_style,
             )]
         self.breach_radius = default_mo["breach_radius"]
 
@@ -138,6 +150,9 @@ class Simulation:
                 end_step=t.get("end_step"),
                 detection_radius=t.get("detection_radius"),
                 steering=t.get("steering", "linear"),
+                repel_weight=t.get("repel_weight", 0.3),
+                attract_weight=t.get("attract_weight", 0.7),
+                sense_radius=t.get("sense_radius", 8.0),
             ))
 
         self.particles: List[Particle] = []

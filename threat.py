@@ -16,6 +16,9 @@ class Threat:
     end_step: Optional[int] = None              # threat deactivates at this step (pulse_test)
     detection_radius: Optional[float] = None    # particles must be within this to perceive directly (stealth_test)
     steering: str = "linear"                    # "linear" or "avoid_cluster" (predator_prey_test)
+    repel_weight: float = 0.3                   # avoid_cluster: how strongly to flee particle density
+    attract_weight: float = 0.7                 # avoid_cluster: how strongly to seek the target
+    sense_radius: float = 8.0                   # avoid_cluster: how far the threat "looks" for clusters
     active: bool = False
     breached: bool = False
     was_active: bool = False                    # tracks if ever activated, for history
@@ -36,7 +39,12 @@ class Threat:
             return
 
         if self.steering == "avoid_cluster" and particles:
-            self.position = self._avoid_cluster_step(particles)
+            self.position = self._avoid_cluster_step(
+                particles,
+                attract_weight=self.attract_weight,
+                repel_weight=self.repel_weight,
+                sense_radius=self.sense_radius,
+            )
         else:
             self.position = move_toward(self.position, self.target, self.speed)
 

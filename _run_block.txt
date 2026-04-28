@@ -1,35 +1,22 @@
 caffeinate -i bash -c '
 echo "===================================================="
-echo "TWO QUICK TESTS — ~1 hour total"
+echo "GAARA TEST v1 — three upgrades together, one run"
 echo "Started: $(date)"
+echo "Identity: \"a grain of the Mothership\""
+echo "Broadcast: felt-state (no coords)"
+echo "Threat: avoid_cluster steering, stronger weights"
 echo "===================================================="
 
-# ============================================================================
-# TEST 1 — ENEMY identity (does identity override the broadcast?)
-# Same prompt structure as guardian, just hostile-relational identity.
-# Mothership broadcast still tells particles where the threat is.
-# Question: do "enemy" particles still cluster on the threat (because the
-# broadcast pulls them) or move away (because identity opposes the subject)?
-# ============================================================================
-echo
-echo "--- [1/2] ENEMY identity, normal broadcast (seed 11) ---"
-python3 main.py --scenario shield_test --identity "an enemy of the Mothership" --seed 11 --label "test_enemy_s11" --no-frames --notes "Identity-vs-broadcast test: does enemy identity override the Mothership state broadcast?"
-
-# ============================================================================
-# TEST 2 — PURE MUKANSHIN (all three relational signals removed)
-# Identity = "an entity" (no relation). Purpose statement = absent (already gone).
-# Mothership broadcast = neutral ("present" instead of "danger / threat at X,Y").
-# Threats still exist in the world but the Mothership does not signal that they matter.
-# Question: do particles engage at all when nothing in the prompt encodes that
-# the threat matters to anyone?
-# ============================================================================
-echo
-echo "--- [2/2] PURE MUKANSHIN — no identity-relation, no broadcast (seed 11) ---"
-python3 main.py --scenario shield_test --identity "an entity" --neutral-broadcast --seed 11 --label "test_pure_mukanshin_s11" --no-frames --notes "Pure mukanshin: identity neutral, broadcast neutralized, no purpose. The framework predicts field collapse — particles fail to engage with the threat at all."
+python3 main.py --scenario gaara_test \
+  --identity "a grain of the Mothership" \
+  --felt-broadcast \
+  --seed 7 \
+  --label "gaara_v1" \
+  --no-frames \
+  --notes "First integrated test of the three Gaara upgrades: felt-state subject voice, constitutive identity (the grain IS part of the Mothership), and adaptive threat that probes around particle density. No purpose statement. No coordinates in the broadcast. Watching for whether the sand reads emotional resonance and whether forms emerge from interpretation."
 
 echo
 echo "===================================================="
-echo "BOTH TESTS COMPLETE"
-echo "Finished: $(date)"
+echo "DONE — Finished: $(date)"
 echo "===================================================="
 '

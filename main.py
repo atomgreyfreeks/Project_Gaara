@@ -193,6 +193,11 @@ def main():
                         help="Replace the Mothership's state broadcast with a relationally "
                              "neutral string ('present'). Used for testing whether the broadcast "
                              "itself is doing relational work independent of identity.")
+    parser.add_argument("--felt-broadcast", action="store_true",
+                        help="Replace the Mothership's mechanical state ('alert — threat at X, Y') "
+                             "with felt-language ('i sense something. presence in the distance.'). "
+                             "Particles read emotional resonance, not surveillance data. No "
+                             "coordinates included — distant particles only feel the Mothership.")
     parser.add_argument("--label", default="", help="Optional label appended to run directory name")
     parser.add_argument("--notes", default="", help="Free-form notes appended to spec.md")
     parser.add_argument("--no-frames", action="store_true", help="Skip saving per-step PNGs")
@@ -219,7 +224,8 @@ def main():
                      identity_override=args.identity,
                      duration_override=args.duration,
                      particle_count_override=args.particle_count,
-                     neutral_broadcast=args.neutral_broadcast)
+                     neutral_broadcast=args.neutral_broadcast,
+                     felt_broadcast=args.felt_broadcast)
     if not check_ollama(sim, logger):
         sys.exit(1)
     sim.initialize_particles()

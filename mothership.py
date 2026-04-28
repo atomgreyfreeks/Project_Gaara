@@ -15,6 +15,10 @@ class Mothership:
     critical_radius: float = 5.0
     breached: bool = False
     last_state: str = "calm — no threats detected"
+    # "mechanical" = "alert — threat at (X,Y), distance D" (sensor language).
+    # "felt"       = "i sense something. presence in the distance." (felt language; no coords).
+    # "neutral"    = "present" (no relational content; used for mukanshin tests).
+    broadcast_style: str = "mechanical"
 
     @property
     def position(self) -> Tuple[float, float]:
@@ -38,7 +42,27 @@ class Mothership:
         return min(relevant, key=lambda t: distance(self.position, t.position))
 
     def compute_state(self, threats: List[Threat]) -> str:
+        if self.broadcast_style == "neutral":
+            return "present"
         t = self.nearest_threat(threats)
+
+        if self.broadcast_style == "felt":
+            # Felt-state broadcasts — the subject speaks what she feels, not what she
+            # detects. No coordinates, no distance numbers. Distant particles read
+            # emotional resonance, not surveillance data. This is closer to how
+            # Gaara's sand reads Gaara: through resonance with his interior state.
+            if t is None:
+                return "calm. the world is still."
+            d = distance(self.position, t.position)
+            if d <= self.critical_radius:
+                return "afraid. it is upon me. my body knows danger."
+            if d <= self.danger_radius:
+                return "my heart quickens. presence is close. i feel unease."
+            if d <= self.awareness_radius:
+                return "i sense something. presence in the distance. i am attentive."
+            return "calm. the world is still."
+
+        # mechanical (default)
         if t is None:
             return "calm — no threats detected"
         d = distance(self.position, t.position)

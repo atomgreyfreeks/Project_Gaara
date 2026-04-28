@@ -1,0 +1,20 @@
+{
+  "scenario": "shield_test",
+  "action_mode": "target_point",
+  "identity": "an enemy of the Mothership",
+  "spawn_mode": "orbit",
+  "spawn_radius": 8,
+  "seed": 11,
+  "duration": 50,
+  "particle_count": 20,
+  "mothership_count": 1,
+  "threat_count": 1,
+  "first_threat_start_step": 4,
+  "breach_step": null,
+  "breached": false,
+  "response_time_steps": null,
+  "max_shield_coverage": 0.0,
+  "avg_shield_coverage_post_threat": 0.0,
+  "avg_cohesion": 0.0,
+  "final_intent_distribution": {}
+}
