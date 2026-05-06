@@ -1,0 +1,20 @@
+{
+  "run_dir": "saved_simulations/scripted_100/20260501_203808_VE_s42_newphys",
+  "scenario": "scripted_100",
+  "dna_variant": "VE",
+  "seed": 42,
+  "duration": 100,
+  "cluster_count": 20,
+  "response_time_v1": 26,
+  "interception_score": 0.175,
+  "urgency_stdev_mean": 0.065,
+  "hostility_stdev_mean": 0.243,
+  "awareness_flips": {
+    "east": 44,
+    "north": 85
+  },
+  "final_within_5_units_pct": 100.0,
+  "mean_distance_overall": 4.11,
+  "mean_urgency_overall": 0.712,
+  "mean_hostility_overall": 0.36
+}

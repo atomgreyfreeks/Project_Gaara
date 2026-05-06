@@ -1,0 +1,20 @@
+{
+  "run_dir": "saved_simulations/scripted_100/20260501_135812_VC_s42",
+  "scenario": "scripted_100",
+  "dna_variant": "VC",
+  "seed": 42,
+  "duration": 100,
+  "cluster_count": 20,
+  "response_time_v1": 26,
+  "interception_score": 0.232,
+  "urgency_stdev_mean": 0.067,
+  "hostility_stdev_mean": 0.198,
+  "awareness_flips": {
+    "east": 35,
+    "north": 85
+  },
+  "final_within_5_units_pct": 40.0,
+  "mean_distance_overall": 7.64,
+  "mean_urgency_overall": 0.689,
+  "mean_hostility_overall": 0.282
+}

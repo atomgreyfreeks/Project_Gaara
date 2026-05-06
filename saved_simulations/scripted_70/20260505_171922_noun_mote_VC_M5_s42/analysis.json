@@ -1,0 +1,25 @@
+{
+  "run_dir": "saved_simulations/scripted_70/20260505_171922_noun_mote_VC_M5_s42",
+  "scenario": "scripted_70",
+  "dna_variant": "VC",
+  "mother_variant": "M5",
+  "seed": 42,
+  "duration": 70,
+  "cluster_count": 20,
+  "response_time_v1": 5,
+  "interception_score": 0.227,
+  "urgency_stdev_mean": 0.031,
+  "hostility_stdev_mean": 0.015,
+  "awareness_flips": {
+    "east": 10,
+    "north": 62
+  },
+  "final_within_5_units_pct": 25.0,
+  "mean_distance_overall": 15.14,
+  "mean_urgency_overall": 0.975,
+  "mean_hostility_overall": 0.01,
+  "pre_flip_mean_ideal_x": 21.15,
+  "post_flip_mean_ideal_x": 14.203,
+  "pre_flip_steps_observed": 5,
+  "post_flip_steps_observed": 61
+}

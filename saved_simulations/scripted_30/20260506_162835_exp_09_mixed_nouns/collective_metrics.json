@@ -1,0 +1,22 @@
+{
+  "scenario": "scripted_30",
+  "duration": 30,
+  "cluster_count": 20,
+  "seed": 42,
+  "dna_variant": "VC",
+  "mother_variant": "M5",
+  "role_noun": "mote",
+  "role_nouns_list": [
+    "sentinel",
+    "warrior"
+  ],
+  "say_prefix": "she",
+  "awareness_range": 4.0,
+  "mean_distance_overall": 11.22114463751439,
+  "mean_urgency_overall": 0.9685,
+  "mean_hostility_overall": 0.0385,
+  "attackers_revealed_at_end": [
+    "east",
+    "north"
+  ]
+}

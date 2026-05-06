@@ -1,0 +1,19 @@
+{
+  "scenario": "scripted_30",
+  "duration": 30,
+  "cluster_count": 20,
+  "seed": 42,
+  "dna_variant": "V_GARDEN",
+  "mother_variant": "M_GARDEN",
+  "role_noun": "seed",
+  "role_nouns_list": null,
+  "say_prefix": "the garden",
+  "awareness_range": 4.0,
+  "mean_distance_overall": 12.347750166842225,
+  "mean_urgency_overall": 0.94375,
+  "mean_hostility_overall": 0.034,
+  "attackers_revealed_at_end": [
+    "east",
+    "north"
+  ]
+}

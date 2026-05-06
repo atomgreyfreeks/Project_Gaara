@@ -1,0 +1,13 @@
+{
+  "scenario": "scripted_55",
+  "duration": 55,
+  "cluster_count": 20,
+  "seed": 42,
+  "mean_distance_overall": 7.023013527738137,
+  "mean_urgency_overall": 0.6275363636363636,
+  "mean_hostility_overall": 0.19813636363636364,
+  "attackers_revealed_at_end": [
+    "north",
+    "east"
+  ]
+}

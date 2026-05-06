@@ -1,0 +1,25 @@
+{
+  "run_dir": "saved_simulations/scripted_70/20260504_224215_D_VC_M3",
+  "scenario": "scripted_70",
+  "dna_variant": "VC",
+  "mother_variant": "M3",
+  "seed": 42,
+  "duration": 70,
+  "cluster_count": 20,
+  "response_time_v1": 19,
+  "interception_score": 0.511,
+  "urgency_stdev_mean": 0.078,
+  "hostility_stdev_mean": 0.138,
+  "awareness_flips": {
+    "east": 22,
+    "north": 62
+  },
+  "final_within_5_units_pct": 100.0,
+  "mean_distance_overall": 5.96,
+  "mean_urgency_overall": 0.74,
+  "mean_hostility_overall": 0.201,
+  "pre_flip_mean_ideal_x": 5.168,
+  "post_flip_mean_ideal_x": 5.494,
+  "pre_flip_steps_observed": 17,
+  "post_flip_steps_observed": 49
+}

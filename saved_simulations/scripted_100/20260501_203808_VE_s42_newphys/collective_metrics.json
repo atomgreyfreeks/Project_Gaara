@@ -1,0 +1,14 @@
+{
+  "scenario": "scripted_100",
+  "duration": 100,
+  "cluster_count": 20,
+  "seed": 42,
+  "dna_variant": "VE",
+  "mean_distance_overall": 4.110677584364908,
+  "mean_urgency_overall": 0.712345,
+  "mean_hostility_overall": 0.360325,
+  "attackers_revealed_at_end": [
+    "north",
+    "east"
+  ]
+}

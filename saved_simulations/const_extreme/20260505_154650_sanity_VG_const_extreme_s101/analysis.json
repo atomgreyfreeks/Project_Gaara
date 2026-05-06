@@ -1,0 +1,22 @@
+{
+  "run_dir": "saved_simulations/const_extreme/20260505_154650_sanity_VG_const_extreme_s101",
+  "scenario": "const_extreme",
+  "dna_variant": "VG",
+  "mother_variant": "M1",
+  "seed": 101,
+  "duration": 40,
+  "cluster_count": 20,
+  "response_time_v1": 5,
+  "interception_score": 0.0,
+  "urgency_stdev_mean": 0.05,
+  "hostility_stdev_mean": 0.079,
+  "awareness_flips": {},
+  "final_within_5_units_pct": 0.0,
+  "mean_distance_overall": 8.01,
+  "mean_urgency_overall": 0.969,
+  "mean_hostility_overall": -0.025,
+  "pre_flip_mean_ideal_x": 0.101,
+  "post_flip_mean_ideal_x": 0.0,
+  "pre_flip_steps_observed": 36,
+  "post_flip_steps_observed": 0
+}

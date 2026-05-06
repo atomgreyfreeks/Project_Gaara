@@ -15,3 +15,13 @@ env/
 
 simulation.log
 *.log
+
+# Local agent state
+.claude/
+
+# Per-run frame renders (large; the .jsonl logs in saved_simulations/ are
+# the canonical record).
+public/
+
+# Editor / OS
+.DS_Store

@@ -1,0 +1,20 @@
+{
+  "run_dir": "saved_simulations/scripted_55/20260501_050723_V1_s101",
+  "scenario": "scripted_55",
+  "dna_variant": "V1",
+  "seed": 101,
+  "duration": 55,
+  "cluster_count": 20,
+  "response_time_v1": 21,
+  "interception_score": 0.078,
+  "urgency_stdev_mean": 0.117,
+  "hostility_stdev_mean": 0.183,
+  "awareness_flips": {
+    "east": 21,
+    "north": 45
+  },
+  "final_within_5_units_pct": 55.0,
+  "mean_distance_overall": 6.8,
+  "mean_urgency_overall": 0.614,
+  "mean_hostility_overall": 0.21
+}

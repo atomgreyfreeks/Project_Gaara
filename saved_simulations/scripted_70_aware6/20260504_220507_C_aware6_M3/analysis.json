@@ -1,0 +1,25 @@
+{
+  "run_dir": "saved_simulations/scripted_70_aware6/20260504_220507_C_aware6_M3",
+  "scenario": "scripted_70_aware6",
+  "dna_variant": "VA",
+  "mother_variant": "M3",
+  "seed": 42,
+  "duration": 70,
+  "cluster_count": 20,
+  "response_time_v1": 19,
+  "interception_score": 0.615,
+  "urgency_stdev_mean": 0.054,
+  "hostility_stdev_mean": 0.169,
+  "awareness_flips": {
+    "east": 19,
+    "north": 61
+  },
+  "final_within_5_units_pct": 60.0,
+  "mean_distance_overall": 5.82,
+  "mean_urgency_overall": 0.783,
+  "mean_hostility_overall": 0.22,
+  "pre_flip_mean_ideal_x": 3.365,
+  "post_flip_mean_ideal_x": 6.897,
+  "pre_flip_steps_observed": 14,
+  "post_flip_steps_observed": 52
+}

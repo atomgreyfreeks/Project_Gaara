@@ -1,0 +1,64 @@
+# Project Gaara — Technology Animism resonance simulation.
+#
+# 20 swarm clusters orbit a Mothership with her own interior. Their LLMs are
+# Affective Transducers — they translate her felt-state broadcast into four
+# physical parameters (attraction, viscosity, agitation, color_temp). Physics
+# integrates those into 3D motion. There are no threats. There are no roles.
+
+simulation:
+  duration: 200
+  half_space_size: 25         # cubic field, ±25 on each axis
+  scenario: "resonance"
+  seed: 42
+
+mothership:
+  name: "M"
+  center: [0.0, 0.0, 0.0]
+
+clusters:
+  count: 20
+  spawn_radius: 8.0           # initial 3D shell radius around Mother
+  memory_size: 6              # rolling buffer of recent moments per cluster
+
+physics:
+  attraction_gain: 0.6        # scales attraction (-1..1) into radial force
+  viscosity_floor: 0.05       # damping fraction at viscosity=0
+  viscosity_max: 0.9          # damping fraction at viscosity=1
+  agitation_scale: 0.4        # gaussian sigma at agitation=1
+  vmax: 4.0                   # speed cap, prevents runaway
+  dt: 1.0
+
+scenarios:
+  # Default — Mother runs her own day. 20 clusters resonate.
+  resonance:
+    duration: 200
+    cluster_count: 20
+
+  # Short scenario for smoke-testing.
+  resonance_short:
+    duration: 20
+    cluster_count: 20
+
+  # Tighter inner shell — clusters spawn closer to the Mother.
+  resonance_close:
+    duration: 200
+    cluster_count: 20
+    spawn_radius: 5.0
+
+  # Wider shell — testing how distance shapes divergent transduction.
+  resonance_wide:
+    duration: 200
+    cluster_count: 20
+    spawn_radius: 14.0
+
+llm:
+  model: "qwen2.5:7b"
+  base_url: "http://localhost:11434"
+  temperature: 0.7
+  max_tokens: 80
+  repeat_penalty: 1.1
+  repeat_last_n: 64
+  min_p: 0.05
+
+logging:
+  level: "INFO"

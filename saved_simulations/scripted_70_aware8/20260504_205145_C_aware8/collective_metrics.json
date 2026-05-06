@@ -1,0 +1,15 @@
+{
+  "scenario": "scripted_70_aware8",
+  "duration": 70,
+  "cluster_count": 20,
+  "seed": 42,
+  "dna_variant": "VA",
+  "mother_variant": "M1",
+  "mean_distance_overall": 5.05531738781283,
+  "mean_urgency_overall": 0.7055714285714286,
+  "mean_hostility_overall": 0.29814285714285715,
+  "attackers_revealed_at_end": [
+    "north",
+    "east"
+  ]
+}

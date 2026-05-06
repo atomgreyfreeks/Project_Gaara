@@ -1,0 +1,25 @@
+{
+  "run_dir": "saved_simulations/scripted_70/20260505_190707_noun_warrior_VC_M5_s42",
+  "scenario": "scripted_70",
+  "dna_variant": "VC",
+  "mother_variant": "M5",
+  "seed": 42,
+  "duration": 70,
+  "cluster_count": 20,
+  "response_time_v1": 5,
+  "interception_score": 0.286,
+  "urgency_stdev_mean": 0.028,
+  "hostility_stdev_mean": 0.026,
+  "awareness_flips": {
+    "east": 10,
+    "north": 60
+  },
+  "final_within_5_units_pct": 25.0,
+  "mean_distance_overall": 14.49,
+  "mean_urgency_overall": 0.983,
+  "mean_hostility_overall": 0.018,
+  "pre_flip_mean_ideal_x": 21.14,
+  "post_flip_mean_ideal_x": 13.437,
+  "pre_flip_steps_observed": 5,
+  "post_flip_steps_observed": 61
+}

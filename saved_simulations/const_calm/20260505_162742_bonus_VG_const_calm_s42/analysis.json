@@ -1,0 +1,22 @@
+{
+  "run_dir": "saved_simulations/const_calm/20260505_162742_bonus_VG_const_calm_s42",
+  "scenario": "const_calm",
+  "dna_variant": "VG",
+  "mother_variant": "M1",
+  "seed": 42,
+  "duration": 40,
+  "cluster_count": 20,
+  "response_time_v1": null,
+  "interception_score": 0.0,
+  "urgency_stdev_mean": 0.12,
+  "hostility_stdev_mean": 0.0,
+  "awareness_flips": {},
+  "final_within_5_units_pct": 0.0,
+  "mean_distance_overall": 7.93,
+  "mean_urgency_overall": 0.42,
+  "mean_hostility_overall": 0.0,
+  "pre_flip_mean_ideal_x": 0.046,
+  "post_flip_mean_ideal_x": 0.0,
+  "pre_flip_steps_observed": 36,
+  "post_flip_steps_observed": 0
+}

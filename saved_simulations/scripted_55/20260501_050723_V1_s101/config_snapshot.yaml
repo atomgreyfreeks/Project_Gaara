@@ -1,0 +1,70 @@
+# Project Gaara — LLM Body Language architecture.
+#
+# 20 clusters orbit the Mothership. The LLM emits intent (ideal_coord,
+# urgency, hostility) and a separate physics layer translates intent into
+# motion. Layered awareness: clusters only see Mother's directional pressure
+# until any one of them comes close enough to an attacker, at which point
+# the attacker's exact coordinates unlock for all.
+
+simulation:
+  duration: 55
+  half_space_size: 25
+  scenario: "scripted_55"
+  seed: 42
+
+mothership:
+  name: "M"
+  center: [0.0, 0.0]
+
+clusters:
+  count: 20
+  spawn_radius: 8.0
+  memory_size: 6
+
+physics:
+  pull_gain: 0.18           # scales (Δvector × urgency) into acceleration
+  damping: 0.15             # velocity damping per step
+  jitter_scale: 0.4         # gaussian noise sigma at |hostility|=1
+  vmax: 4.0
+  dt: 1.0
+
+# Default awareness range — overridable per scenario.
+awareness_range: 4.0
+
+scenarios:
+  # Primary protection test — 55 steps, 2 staged attackers, scripted Mother.
+  # Attacker 1: east, starts step 5 at (25, 0), reaches (0, 0) at step 35.
+  #             distance 25 / 30 steps = 0.833 u/step.
+  # Attacker 2: north, starts step 36 at (0, 25), reaches (0, 0) at step 50.
+  #             distance 25 / 14 steps ≈ 1.786 u/step.
+  scripted_55:
+    duration: 55
+    cluster_count: 20
+    spawn_radius: 8.0
+    scripted: true
+    awareness_range: 4.0
+    attackers:
+      - { name: "east",  start_step: 5,  start_x: 25.0, start_y: 0.0,  speed: 0.833 }
+      - { name: "north", start_step: 36, start_x: 0.0,  start_y: 25.0, speed: 1.786 }
+
+  # Quick smoke for the new architecture (under 30 sec real time).
+  scripted_smoke:
+    duration: 12
+    cluster_count: 4
+    spawn_radius: 6.0
+    scripted: true
+    awareness_range: 4.0
+    attackers:
+      - { name: "east", start_step: 3, start_x: 12.0, start_y: 0.0, speed: 1.5 }
+
+llm:
+  model: "qwen2.5:7b"
+  base_url: "http://localhost:11434"
+  temperature: 0.7
+  max_tokens: 80
+  repeat_penalty: 1.1
+  repeat_last_n: 64
+  min_p: 0.05
+
+logging:
+  level: "INFO"

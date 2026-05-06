@@ -1,0 +1,25 @@
+{
+  "run_dir": "saved_simulations/scripted_70/20260505_032935_iter_VA_M4_s202",
+  "scenario": "scripted_70",
+  "dna_variant": "VA",
+  "mother_variant": "M4",
+  "seed": 202,
+  "duration": 70,
+  "cluster_count": 20,
+  "response_time_v1": 7,
+  "interception_score": 0.68,
+  "urgency_stdev_mean": 0.051,
+  "hostility_stdev_mean": 0.242,
+  "awareness_flips": {
+    "east": 14,
+    "north": 61
+  },
+  "final_within_5_units_pct": 100.0,
+  "mean_distance_overall": 7.03,
+  "mean_urgency_overall": 0.876,
+  "mean_hostility_overall": 0.231,
+  "pre_flip_mean_ideal_x": 17.972,
+  "post_flip_mean_ideal_x": 7.637,
+  "pre_flip_steps_observed": 9,
+  "post_flip_steps_observed": 57
+}

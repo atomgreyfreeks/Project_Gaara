@@ -1,0 +1,14 @@
+{
+  "scenario": "resonance",
+  "duration": 200,
+  "cluster_count": 20,
+  "seed": 42,
+  "fires": 31,
+  "fire_ratio": 0.155,
+  "llm_calls": 620,
+  "mean_distance_overall": 0.38912636535609374,
+  "mean_color_temp_overall": 6017.34,
+  "mean_agitation_overall": 0.11622932223506631,
+  "mean_attraction_overall": 0.5200868030520784,
+  "mean_viscosity_overall": 0.3828932239076373
+}

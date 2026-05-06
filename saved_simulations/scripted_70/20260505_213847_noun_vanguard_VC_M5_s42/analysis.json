@@ -1,0 +1,25 @@
+{
+  "run_dir": "saved_simulations/scripted_70/20260505_213847_noun_vanguard_VC_M5_s42",
+  "scenario": "scripted_70",
+  "dna_variant": "VC",
+  "mother_variant": "M5",
+  "seed": 42,
+  "duration": 70,
+  "cluster_count": 20,
+  "response_time_v1": 5,
+  "interception_score": 0.306,
+  "urgency_stdev_mean": 0.026,
+  "hostility_stdev_mean": 0.026,
+  "awareness_flips": {
+    "east": 10,
+    "north": 58
+  },
+  "final_within_5_units_pct": 40.0,
+  "mean_distance_overall": 13.67,
+  "mean_urgency_overall": 0.98,
+  "mean_hostility_overall": 0.026,
+  "pre_flip_mean_ideal_x": 21.715,
+  "post_flip_mean_ideal_x": 12.874,
+  "pre_flip_steps_observed": 5,
+  "post_flip_steps_observed": 61
+}

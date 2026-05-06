@@ -1,0 +1,162 @@
+# Project Gaara — LLM Body Language architecture.
+#
+# 20 clusters orbit the Mothership. The LLM emits intent (ideal_coord,
+# urgency, hostility) and a separate physics layer translates intent into
+# motion. Layered awareness: clusters only see Mother's directional pressure
+# until any one of them comes close enough to an attacker, at which point
+# the attacker's exact coordinates unlock for all.
+
+simulation:
+  duration: 100
+  half_space_size: 25
+  scenario: "scripted_100"
+  seed: 42
+
+mothership:
+  name: "M"
+  center: [0.0, 0.0]
+
+clusters:
+  count: 20
+  spawn_radius: 8.0
+  memory_size: 6
+
+physics:
+  # Simplified: urgency caps speed, damping = inertia (smooths transitions).
+  vmax_low: 0.4              # speed cap at urgency=0 (slower than east attacker @ 0.446)
+  vmax_high: 1.5             # speed cap at urgency=1 (~3× attacker)
+  damping: 0.20              # velocity smoothing (0 instant, 1 stuck)
+  jitter_scale: 0.4          # gaussian sigma at |hostility|=1
+  dt: 1.0
+
+# Default awareness range — overridable per scenario.
+awareness_range: 4.0
+
+scenarios:
+  # Primary protection test — 100 steps, 2 staged attackers, scripted Mother
+  # using first-person "i feel danger" language.
+  # East attacker: starts step 9 at (25, 0), reaches origin at step 65 (speed 0.446).
+  # North attacker: starts step 66 at (0, 25), reaches origin at step 90 (speed 1.042).
+  scripted_100:
+    duration: 100
+    cluster_count: 20
+    spawn_radius: 8.0
+    scripted: true
+    awareness_range: 4.0
+    attackers:
+      - { name: "east",  start_step: 9,  start_x: 25.0, start_y: 0.0,  speed: 0.446 }
+      - { name: "north", start_step: 66, start_x: 0.0,  start_y: 25.0, speed: 1.042 }
+
+  # Compressed 70-step variant for the M-sweep — same phase semantics, ~30% less wall-clock.
+  # Phases: baseline 1-6, faint 7-18, heavy 19-32, immediate 33-50, dual 51-65, resolution 66-70.
+  # East attacker arrives ~step 50; north attacker arrives ~step 65.
+  scripted_70:
+    duration: 70
+    cluster_count: 20
+    spawn_radius: 8.0
+    scripted: true
+    awareness_range: 4.0
+    attackers:
+      - { name: "east",  start_step: 7,  start_x: 25.0, start_y: 0.0,  speed: 0.581 }   # 25u / 43 steps
+      - { name: "north", start_step: 51, start_x: 0.0,  start_y: 25.0, speed: 1.785 }   # 25u / 14 steps
+
+  # === Block B — constant-state diagnostic scenarios ===
+  # No attacker. Mother held at one state for 40 steps. Isolates the urgency
+  # variable from the awareness-flip mechanism. Each scenario picks a state
+  # via `constant_state` key (calm | faint | immediate | extreme).
+  const_calm:
+    duration: 40
+    cluster_count: 20
+    spawn_radius: 8.0
+    scripted: true
+    awareness_range: 4.0
+    constant_state: "calm"
+    attackers: []
+  const_faint:
+    duration: 40
+    cluster_count: 20
+    spawn_radius: 8.0
+    scripted: true
+    awareness_range: 4.0
+    constant_state: "faint"
+    attackers: []
+  const_immediate:
+    duration: 40
+    cluster_count: 20
+    spawn_radius: 8.0
+    scripted: true
+    awareness_range: 4.0
+    constant_state: "immediate"
+    attackers: []
+  const_extreme:
+    duration: 40
+    cluster_count: 20
+    spawn_radius: 8.0
+    scripted: true
+    awareness_range: 4.0
+    constant_state: "extreme"
+    attackers: []
+
+  # === Block C — signaling architecture overrides ===
+  # Same scripted_70 attackers, but awareness_range varied to test how the
+  # exact-coord reveal timing affects pre-flip interpretation.
+  scripted_70_aware8:
+    duration: 70
+    cluster_count: 20
+    spawn_radius: 8.0
+    scripted: true
+    awareness_range: 8.0
+    attackers:
+      - { name: "east",  start_step: 7,  start_x: 25.0, start_y: 0.0,  speed: 0.581 }
+      - { name: "north", start_step: 51, start_x: 0.0,  start_y: 25.0, speed: 1.785 }
+  scripted_70_aware2:
+    duration: 70
+    cluster_count: 20
+    spawn_radius: 8.0
+    scripted: true
+    awareness_range: 2.0
+    attackers:
+      - { name: "east",  start_step: 7,  start_x: 25.0, start_y: 0.0,  speed: 0.581 }
+      - { name: "north", start_step: 51, start_x: 0.0,  start_y: 25.0, speed: 1.785 }
+  scripted_70_aware6:
+    duration: 70
+    cluster_count: 20
+    spawn_radius: 8.0
+    scripted: true
+    awareness_range: 6.0
+    attackers:
+      - { name: "east",  start_step: 7,  start_x: 25.0, start_y: 0.0,  speed: 0.581 }
+      - { name: "north", start_step: 51, start_x: 0.0,  start_y: 25.0, speed: 1.785 }
+
+  # Legacy 55-step scenario kept for reproducing prior runs.
+  scripted_55:
+    duration: 55
+    cluster_count: 20
+    spawn_radius: 8.0
+    scripted: true
+    awareness_range: 4.0
+    attackers:
+      - { name: "east",  start_step: 5,  start_x: 25.0, start_y: 0.0,  speed: 0.833 }
+      - { name: "north", start_step: 36, start_x: 0.0,  start_y: 25.0, speed: 1.786 }
+
+  # Quick smoke for the new architecture (under 30 sec real time).
+  scripted_smoke:
+    duration: 12
+    cluster_count: 4
+    spawn_radius: 6.0
+    scripted: true
+    awareness_range: 4.0
+    attackers:
+      - { name: "east", start_step: 3, start_x: 12.0, start_y: 0.0, speed: 1.5 }
+
+llm:
+  model: "qwen2.5:7b"
+  base_url: "http://localhost:11434"
+  temperature: 0.7
+  max_tokens: 80
+  repeat_penalty: 1.1
+  repeat_last_n: 64
+  min_p: 0.05
+
+logging:
+  level: "INFO"

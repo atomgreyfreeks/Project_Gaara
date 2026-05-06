@@ -1,0 +1,12 @@
+{
+  "scenario": "const_calm",
+  "duration": 40,
+  "cluster_count": 20,
+  "seed": 42,
+  "dna_variant": "VA",
+  "mother_variant": "M1",
+  "mean_distance_overall": 6.414316959821029,
+  "mean_urgency_overall": 0.090125,
+  "mean_hostility_overall": -0.11500000000000002,
+  "attackers_revealed_at_end": []
+}

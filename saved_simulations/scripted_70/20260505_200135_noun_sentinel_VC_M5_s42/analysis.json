@@ -1,0 +1,25 @@
+{
+  "run_dir": "saved_simulations/scripted_70/20260505_200135_noun_sentinel_VC_M5_s42",
+  "scenario": "scripted_70",
+  "dna_variant": "VC",
+  "mother_variant": "M5",
+  "seed": 42,
+  "duration": 70,
+  "cluster_count": 20,
+  "response_time_v1": 5,
+  "interception_score": 0.566,
+  "urgency_stdev_mean": 0.039,
+  "hostility_stdev_mean": 0.025,
+  "awareness_flips": {
+    "east": 10,
+    "north": 62
+  },
+  "final_within_5_units_pct": 85.0,
+  "mean_distance_overall": 9.83,
+  "mean_urgency_overall": 0.975,
+  "mean_hostility_overall": 0.026,
+  "pre_flip_mean_ideal_x": 20.625,
+  "post_flip_mean_ideal_x": 9.596,
+  "pre_flip_steps_observed": 5,
+  "post_flip_steps_observed": 61
+}

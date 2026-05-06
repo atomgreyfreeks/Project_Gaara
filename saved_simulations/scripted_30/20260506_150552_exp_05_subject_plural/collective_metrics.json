@@ -1,0 +1,19 @@
+{
+  "scenario": "scripted_30",
+  "duration": 30,
+  "cluster_count": 20,
+  "seed": 42,
+  "dna_variant": "V_WE",
+  "mother_variant": "M_WE",
+  "role_noun": "place",
+  "role_nouns_list": null,
+  "say_prefix": "we",
+  "awareness_range": 4.0,
+  "mean_distance_overall": 11.643041330028021,
+  "mean_urgency_overall": 0.9381166666666666,
+  "mean_hostility_overall": -0.0012833333333333334,
+  "attackers_revealed_at_end": [
+    "east",
+    "north"
+  ]
+}

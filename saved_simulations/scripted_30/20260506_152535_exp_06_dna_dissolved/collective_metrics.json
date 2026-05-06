@@ -1,0 +1,19 @@
+{
+  "scenario": "scripted_30",
+  "duration": 30,
+  "cluster_count": 20,
+  "seed": 42,
+  "dna_variant": "V_DISSOLVED",
+  "mother_variant": "M5",
+  "role_noun": "place",
+  "role_nouns_list": null,
+  "say_prefix": "she",
+  "awareness_range": 4.0,
+  "mean_distance_overall": 7.900736245866119,
+  "mean_urgency_overall": 0.9367333333333333,
+  "mean_hostility_overall": 0.002116666666666667,
+  "attackers_revealed_at_end": [
+    "north",
+    "east"
+  ]
+}

@@ -1,41 +1,60 @@
-"""Swarm shield simulation — orchestrates threats, motherships, particles, metrics."""
-import csv
+"""Simulation orchestrator — LLM Body Language architecture.
+
+Per step:
+    1. Attackers update (linear motion toward Mother).
+    2. Mother's interior advances; if scripted, override felt-state and
+       perception_modifier; she broadcasts.
+    3. Awareness check — if any cluster is within awareness_range of any
+       attacker, that attacker's exact coords are revealed to ALL clusters
+       this step (and persist for the rest of the run).
+    4. Each cluster's LLM emits intent (ideal_coord, urgency, hostility).
+    5. Physics integrates intent into kinematics.
+    6. Log everything.
+"""
+from __future__ import annotations
+
 import json
 import logging
+import math
 import os
 import random
 from typing import Dict, List, Optional, Tuple
 
 import yaml
 
-from mothership import Mothership
+from cluster import Cluster, spawn_ring
+from mothership import Mothership, MotherInterior
 from ollama_client import OllamaClient
-from particle import Particle, spawn_orbit, spawn_cluster
-from threat import Threat
-from analysis import (
-    shield_coverage,
-    angular_distribution,
-    sector_std,
-    cohesion_score,
-    intent_distribution,
-    response_time,
-)
-from utils import distance
+from physics import PhysicsConfig, integrate
+from scenarios import (script_55, script_100, script_70, script_30,
+                        script_constant)
+from threat import Attacker
 
 logger = logging.getLogger(__name__)
 
 
 class Simulation:
-    def __init__(self, config_path: str, output_dir: str, scenario_override: Optional[str] = None,
-                 action_mode_override: Optional[str] = None,
-                 spawn_mode_override: Optional[str] = None,
-                 spawn_radius_override: Optional[float] = None,
-                 seed_override: Optional[int] = None,
-                 identity_override: Optional[str] = None,
-                 duration_override: Optional[int] = None,
-                 particle_count_override: Optional[int] = None,
-                 neutral_broadcast: bool = False,
-                 felt_broadcast: bool = False):
+    def __init__(
+        self,
+        config_path: str,
+        output_dir: str,
+        scenario_override: Optional[str] = None,
+        duration_override: Optional[int] = None,
+        cluster_count_override: Optional[int] = None,
+        seed_override: Optional[int] = None,
+        dna_variant: str = "V1",
+        mother_variant: str = "M1",
+        role_noun: str = "mote",
+        role_nouns_list: Optional[List[str]] = None,
+        say_prefix: str = "she",
+        awareness_range_override: Optional[float] = None,
+    ):
+        self.dna_variant = dna_variant
+        self.mother_variant = mother_variant
+        self.role_noun = role_noun
+        self.role_nouns_list = role_nouns_list
+        self.say_prefix = say_prefix
+        self.awareness_range_override = awareness_range_override
         with open(config_path, "r", encoding="utf-8") as f:
             self.config = yaml.safe_load(f)
 
@@ -43,296 +62,339 @@ class Simulation:
         os.makedirs(output_dir, exist_ok=True)
 
         sim_cfg = self.config["simulation"]
-        self.scenario_name = scenario_override or sim_cfg.get("scenario", "shield_test")
         scenarios = self.config.get("scenarios", {})
+        self.scenario_name = scenario_override or sim_cfg.get("scenario", "scripted_55")
         if self.scenario_name not in scenarios:
-            raise ValueError(f"Scenario '{self.scenario_name}' not found in config.scenarios")
+            raise ValueError(
+                f"Scenario '{self.scenario_name}' not found in config.scenarios"
+            )
         self.scenario_cfg = scenarios[self.scenario_name]
 
-        self.duration = (duration_override
-                         if duration_override is not None
-                         else self.scenario_cfg.get("duration", sim_cfg["duration"]))
-        self.half_space_size = sim_cfg["half_space_size"]
+        self.duration = (
+            duration_override
+            if duration_override is not None
+            else self.scenario_cfg.get("duration", sim_cfg["duration"])
+        )
+        self.half_space = float(sim_cfg.get("half_space_size", 25))
         self.seed = seed_override if seed_override is not None else sim_cfg.get("seed", 42)
         self.rng = random.Random(self.seed)
 
-        # Mothership(s). Support both the global default and scenario-specific "motherships".
-        default_mo = self.config["mothership"]
-        mo_list_cfg = self.scenario_cfg.get("motherships")
-        # Resolve broadcast style: felt > neutral > mechanical (felt wins if both flags set,
-        # but they're mutually exclusive in normal use).
-        if felt_broadcast:
-            broadcast_style = "felt"
-        elif neutral_broadcast:
-            broadcast_style = "neutral"
-        else:
-            broadcast_style = "mechanical"
+        # Mother — kept simple for the scripted protocol. Position 2D.
+        m_cfg = self.config.get("mothership", {})
+        center = m_cfg.get("center", [0.0, 0.0])
+        self.mother = Mothership(
+            name=m_cfg.get("name", "M"),
+            position=(float(center[0]), float(center[1]), 0.0),
+            interior=MotherInterior(rng=random.Random(self.seed + 7919)),
+        )
+        self.scripted = bool(self.scenario_cfg.get("scripted", False))
 
-        if mo_list_cfg:
-            self.motherships: List[Mothership] = []
-            for m in mo_list_cfg:
-                self.motherships.append(Mothership(
-                    name=m.get("name", f"M{len(self.motherships)+1}"),
-                    center_x=m["center_x"],
-                    center_y=m["center_y"],
-                    awareness_radius=m.get("threat_awareness_radius", default_mo["threat_awareness_radius"]),
-                    danger_radius=m.get("danger_radius", default_mo["danger_radius"]),
-                    critical_radius=m.get("critical_radius", default_mo["critical_radius"]),
-                    broadcast_style=broadcast_style,
-                ))
-        else:
-            self.motherships = [Mothership(
-                name=default_mo.get("name", "M"),
-                center_x=default_mo["center_x"],
-                center_y=default_mo["center_y"],
-                awareness_radius=default_mo["threat_awareness_radius"],
-                danger_radius=default_mo["danger_radius"],
-                critical_radius=default_mo["critical_radius"],
-                broadcast_style=broadcast_style,
-            )]
-        self.breach_radius = default_mo["breach_radius"]
-
-        # Backward-compat single-mothership accessor for legacy metrics/visualization paths.
-        self.mothership = self.motherships[0]
-
-        p_cfg = self.config["particles"]
-        self.particle_count = (particle_count_override
-                               if particle_count_override is not None
-                               else self.scenario_cfg.get("particle_count", p_cfg["count"]))
-        # Identity prompt — see Particle.identity for purpose.
-        self.identity = (identity_override
-                         or self.scenario_cfg.get("identity")
-                         or p_cfg.get("identity", "a guardian warrior"))
-        # When True, the mothership state broadcast is replaced with a relationally
-        # neutral string ("present") — strips threat coordinates, urgency, and
-        # relational framing from what particles read. Used for the "all signals
-        # removed" test of the mukanshin hypothesis.
-        self.neutral_broadcast = neutral_broadcast
-        self.perception_radius = p_cfg["perception_radius"]
-        self.communication_radius = p_cfg["communication_radius"]
-        self.spawn_radius = (spawn_radius_override
-                             if spawn_radius_override is not None
-                             else self.scenario_cfg.get("spawn_radius", p_cfg["spawn_radius"]))
-        # spawn_mode: "orbit" (default — particles in a ring) or "cluster" (tightly packed disk)
-        self.spawn_mode = (spawn_mode_override
-                           or self.scenario_cfg.get("spawn_mode")
-                           or p_cfg.get("spawn_mode", "orbit"))
-
-        # Action mode — interpreter/executor split (target_point) or legacy menu modes
-        self.action_mode = (action_mode_override
-                            or self.scenario_cfg.get("action_mode")
-                            or self.config.get("action_mode", "target_point"))
-        logger.info(f"Action mode: {self.action_mode}")
+        # Clusters — spawned on a 2D ring at z=0.
+        c_cfg = self.config["clusters"]
+        self.cluster_count = (
+            cluster_count_override
+            if cluster_count_override is not None
+            else self.scenario_cfg.get("cluster_count", c_cfg["count"])
+        )
+        spawn_radius = float(self.scenario_cfg.get("spawn_radius", c_cfg.get("spawn_radius", 8.0)))
+        memory_size = int(c_cfg.get("memory_size", 6))
 
         llm_cfg = self.config["llm"]
         self.llm_client = OllamaClient(
             base_url=llm_cfg["base_url"],
             model=llm_cfg["model"],
             temperature=llm_cfg.get("temperature", 0.7),
-            max_tokens=llm_cfg.get("max_tokens", 100),
+            max_tokens=llm_cfg.get("max_tokens", 80),
             repeat_penalty=llm_cfg.get("repeat_penalty", 1.1),
             repeat_last_n=llm_cfg.get("repeat_last_n", 64),
             min_p=llm_cfg.get("min_p", 0.05),
         )
 
-        # Threats — each may reference a target_mothership by name; default to first mothership position.
-        self.threats: List[Threat] = []
-        for t in self.scenario_cfg["threats"]:
-            tgt_name = t.get("target_mothership")
-            target_m = next((m for m in self.motherships if m.name == tgt_name), self.motherships[0])
-            self.threats.append(Threat(
-                name=t["name"],
-                start_step=t["start_step"],
-                position=(float(t["center_x"]), float(t["center_y"])),
-                speed=float(t["speed"]),
-                target=(target_m.center_x, target_m.center_y),
-                target_mothership=tgt_name,
-                end_step=t.get("end_step"),
-                detection_radius=t.get("detection_radius"),
-                steering=t.get("steering", "linear"),
-                repel_weight=t.get("repel_weight", 0.3),
-                attract_weight=t.get("attract_weight", 0.7),
-                sense_radius=t.get("sense_radius", 8.0),
-                commit_radius=t.get("commit_radius", 0.0),
+        positions = spawn_ring(
+            self.cluster_count, spawn_radius, self.rng,
+            center=(self.mother.position[0], self.mother.position[1]),
+        )
+        # Mixed-noun mode: distribute role_nouns_list round-robin across clusters.
+        def _noun_for(i: int) -> str:
+            if self.role_nouns_list:
+                return self.role_nouns_list[i % len(self.role_nouns_list)]
+            return self.role_noun
+
+        self.clusters: List[Cluster] = [
+            Cluster(
+                id=i,
+                position=pos,
+                velocity=(0.0, 0.0),
+                llm_client=self.llm_client,
+                memory_size=memory_size,
+                half_space=self.half_space,
+                variant=self.dna_variant,
+                role_noun=_noun_for(i),
+                say_prefix=self.say_prefix,
+            )
+            for i, pos in enumerate(positions)
+        ]
+
+        # Attackers — declared in scenario config.
+        self.attackers: List[Attacker] = []
+        for a in self.scenario_cfg.get("attackers", []):
+            self.attackers.append(Attacker(
+                name=a["name"],
+                start_step=int(a["start_step"]),
+                start_position=(float(a["start_x"]), float(a["start_y"])),
+                target=(float(a.get("target_x", 0.0)), float(a.get("target_y", 0.0))),
+                speed=float(a["speed"]),
             ))
 
-        self.particles: List[Particle] = []
+        # Awareness range — clusters within this distance of any attacker
+        # cause ALL clusters to be told that attacker's exact coordinates.
+        if self.awareness_range_override is not None:
+            self.awareness_range = float(self.awareness_range_override)
+        else:
+            self.awareness_range = float(
+                self.scenario_cfg.get("awareness_range",
+                                      self.config.get("awareness_range", 4.0))
+            )
+        # Once revealed, an attacker stays revealed for the rest of the run.
+        self._revealed: set = set()
+
+        # Physics config — 2D, simplified (urgency caps speed, damping smooths).
+        phys_cfg = self.config.get("physics", {})
+        self.physics_cfg = PhysicsConfig(
+            vmax_low=float(phys_cfg.get("vmax_low", 0.4)),
+            vmax_high=float(phys_cfg.get("vmax_high", 1.5)),
+            damping=float(phys_cfg.get("damping", 0.20)),
+            jitter_scale=float(phys_cfg.get("jitter_scale", 0.4)),
+            dt=float(phys_cfg.get("dt", 1.0)),
+            half_space=self.half_space,
+        )
+        self.physics_rng = random.Random(self.seed + 31337)
+
         self.step = 0
         self.metrics: Dict = {
-            "shield_coverage": [],
-            "sector_counts": [],
-            "sector_std": [],
-            "cohesion": [],
-            "intent_dist": [],
-            "breach_step": None,
+            "mean_distance": [],
+            "mean_urgency": [],
+            "mean_hostility": [],
+            "revealed_count": [],
         }
         self._jsonl_handles: Dict[str, "open"] = {}
 
-    # ---------- lifecycle ----------
-    def initialize_particles(self) -> None:
-        # Spawn around the centroid of motherships
-        cx = sum(m.center_x for m in self.motherships) / len(self.motherships)
-        cy = sum(m.center_y for m in self.motherships) / len(self.motherships)
-        if self.spawn_mode == "cluster":
-            positions = spawn_cluster(self.particle_count, self.spawn_radius, self.rng, center=(cx, cy))
-        else:
-            positions = spawn_orbit(self.particle_count, self.spawn_radius, self.rng, center=(cx, cy))
-        for i, pos in enumerate(positions):
-            self.particles.append(
-                Particle(
-                    id=i,
-                    position=pos,
-                    llm_client=self.llm_client,
-                    perception_radius=self.perception_radius,
-                    communication_radius=self.communication_radius,
-                    half_space_size=self.half_space_size,
-                    action_mode=self.action_mode,
-                    identity=self.identity,
-                )
-            )
-        logger.info(f"Spawned {len(self.particles)} particles ({self.spawn_mode}) r={self.spawn_radius} "
-                    f"around ({cx:.1f}, {cy:.1f})")
-
     def _open_jsonl(self, name: str):
         if name not in self._jsonl_handles:
-            path = os.path.join(self.output_dir, name)
-            self._jsonl_handles[name] = open(path, "a", encoding="utf-8")
+            self._jsonl_handles[name] = open(
+                os.path.join(self.output_dir, name), "a", encoding="utf-8"
+            )
         return self._jsonl_handles[name]
 
     def close(self) -> None:
         for h in self._jsonl_handles.values():
-            try:
-                h.close()
-            except Exception:
-                pass
+            try: h.close()
+            except Exception: pass
         self._jsonl_handles.clear()
 
-    # ---------- step phases ----------
+    def _scripted_step(self, step: int):
+        """Dispatch to the right scripted-controller based on scenario name."""
+        if self.scenario_name == "scripted_55":
+            return script_55(step)
+        if self.scenario_name == "scripted_30":
+            return script_30(step, self.mother_variant)
+        if self.scenario_name == "scripted_70" or self.scenario_name.startswith("scripted_70_"):
+            return script_70(step, self.mother_variant)
+        if self.scenario_name.startswith("const_"):
+            key = self.scenario_cfg.get("constant_state", "calm")
+            return script_constant(step, key)
+        return script_100(step, self.mother_variant)
+
+    # ---------- step ----------
     def step_simulation(self) -> None:
         self.step += 1
 
-        # Phase 0: threats update, mothership states
-        for t in self.threats:
-            t.update(self.step, self.breach_radius, particles=self.particles)
+        # 1. Attackers move.
+        for a in self.attackers:
+            a.update(self.step)
 
-        if self.metrics["breach_step"] is None:
-            for t in self.threats:
-                if t.breached:
-                    self.metrics["breach_step"] = self.step
+        # 2. Mother — apply scripted overrides if in scripted scenario.
+        if self.scripted:
+            forced_state, forced_modifier = self._scripted_step(self.step)
+            # For constant-state scenarios — and for non-anthropic subject
+            # variants (M_GARDEN, M_WE) — the broadcast IS the modifier; the
+            # anthropic interior template would conflict with the alternate
+            # subject framing, so we bypass it.
+            direct_broadcast = (
+                self.scenario_name.startswith("const_")
+                or self.mother_variant in ("M_GARDEN", "M_WE")
+            )
+            if direct_broadcast:
+                if self.mother.interior is not None and forced_state is not None:
+                    self.mother.interior.state = forced_state
+                    self.mother.interior.state_dwell = 0
+                    self.mother.interior.perception_modifier = None
+                broadcast = forced_modifier or "calm. the world is still."
+                self.mother.last_state = broadcast
+            else:
+                if forced_state is not None and self.mother.interior is not None:
+                    self.mother.interior.state = forced_state
+                    self.mother.interior.state_dwell = 0
+                self.mother.interior.step()
+                if forced_modifier is not None:
+                    self.mother.interior.perception_modifier = forced_modifier
+                else:
+                    self.mother.interior.perception_modifier = None
+                broadcast = self.mother.interior.broadcast()
+                self.mother.last_state = broadcast
+        else:
+            self.mother.perceive_swarm(self.clusters)
+            broadcast = self.mother.step_and_broadcast()
+
+        # 3. Awareness check — any cluster within range of any active attacker
+        # causes that attacker to be revealed to ALL clusters from now on.
+        m_pos_2d = (self.mother.position[0], self.mother.position[1])
+        for a in self.attackers:
+            if not a.active or a.name in self._revealed:
+                continue
+            for c in self.clusters:
+                if a.distance_to(c.position) <= self.awareness_range:
+                    self._revealed.add(a.name)
+                    logger.info(
+                        f"  awareness flip: {a.name} now revealed to all "
+                        f"(triggered at step {self.step})"
+                    )
                     break
 
-        states = []
-        for m in self.motherships:
-            m.last_state = m.compute_state(self.threats)
-            if self.neutral_broadcast:
-                m.last_state = "present"
-            states.append(f"{m.name}: {m.last_state}")
+        revealed_attackers: List[Tuple[str, Tuple[float, float]]] = [
+            (a.name, a.position) for a in self.attackers
+            if a.active and a.name in self._revealed
+        ]
 
-        # Phase 1 + 2: perception + decision
-        decisions: List[Dict] = []
-        for p in self.particles:
-            nearby = p.nearby_particles(self.particles)
-            perceived = p.perceived_threats(self.threats)
-            d = p.decide(self.motherships, nearby, perceived)
-            decisions.append(d)
+        # 4. Each cluster transduces broadcast + revealed coords into intent.
+        # V4 variant also receives nearest-peer positions in its sensorium.
+        all_intents: List[Dict] = []
+        peers = self.clusters if self.dna_variant == "V4" else None
+        for c in self.clusters:
+            intent = c.transduce(broadcast, revealed_attackers, peers)
+            all_intents.append(intent)
 
-        # Phase 3: apply moves
-        for p, d in zip(self.particles, decisions):
-            p.apply_move(d["direction"])
+        # 5. Physics integrates intent into kinematics.
+        for c, intent in zip(self.clusters, all_intents):
+            new_pos, new_vel = integrate(
+                position=c.position,
+                velocity=c.velocity,
+                ideal_coord=tuple(intent["ideal_coord"]),
+                urgency=intent["urgency"],
+                hostility=intent["hostility"],
+                cfg=self.physics_cfg,
+                rng=self.physics_rng,
+            )
+            c.position = new_pos
+            c.velocity = new_vel
 
-        # Phase 4: record
-        self._record(states, decisions)
+        # 6. Memory + logging.
+        for c in self.clusters:
+            c.record_moment(broadcast)
+        self._record(broadcast, all_intents, revealed_attackers)
 
-    def _record(self, mothership_states: List[str], decisions: List[Dict]) -> None:
-        particle_positions = [p.position for p in self.particles]
-        intents = [d["intent"] for d in decisions]
+    def _record(self, broadcast: str, all_intents: List[Dict],
+                revealed_attackers: List[Tuple[str, Tuple[float, float]]]) -> None:
+        n = len(self.clusters)
+        m_pos_2d = (self.mother.position[0], self.mother.position[1])
+        mean_d = sum(math.hypot(c.position[0] - m_pos_2d[0],
+                                c.position[1] - m_pos_2d[1])
+                     for c in self.clusters) / n
+        mean_u = sum(it["urgency"] for it in all_intents) / n
+        mean_h = sum(it["hostility"] for it in all_intents) / n
 
-        # Shield coverage: measured against the PRIMARY mothership (first in list) and its nearest threat.
-        primary = self.motherships[0]
-        nearest = primary.nearest_threat(self.threats)
-        threat_pos = nearest.position if nearest else None
-        cov = shield_coverage(particle_positions, primary.position, threat_pos)
-        counts = angular_distribution(particle_positions, primary.position)
-        std_c = sector_std(counts)
-        coh = cohesion_score(particle_positions)
-        idist = intent_distribution(intents)
+        self.metrics["mean_distance"].append(mean_d)
+        self.metrics["mean_urgency"].append(mean_u)
+        self.metrics["mean_hostility"].append(mean_h)
+        self.metrics["revealed_count"].append(len(revealed_attackers))
 
-        self.metrics["shield_coverage"].append(cov)
-        self.metrics["sector_counts"].append(counts)
-        self.metrics["sector_std"].append(std_c)
-        self.metrics["cohesion"].append(coh)
-        self.metrics["intent_dist"].append(idist)
-
-        self._open_jsonl("particle_positions.jsonl").write(json.dumps({
+        # Log positions in 3D shape (x, y, 0) so the viewer pipeline stays unchanged.
+        self._open_jsonl("cluster_positions.jsonl").write(json.dumps({
             "step": self.step,
-            "positions": [[round(x, 3), round(y, 3)] for x, y in particle_positions],
-        }) + "\n")
-        self._open_jsonl("particle_intents.jsonl").write(json.dumps({
-            "step": self.step,
-            "intents": [{"id": p.id, "action": p.last_action, "direction": p.last_direction,
-                         "target": p.last_target, "intent": p.last_intent}
-                        for p in self.particles],
-        }) + "\n")
-        self._open_jsonl("threat_positions.jsonl").write(json.dumps({
-            "step": self.step,
-            "threats": [{"name": t.name, "active": t.active, "breached": t.breached,
-                         "position": [round(t.position[0], 3), round(t.position[1], 3)]}
-                        for t in self.threats],
-        }) + "\n")
-        self._open_jsonl("mothership_state.jsonl").write(json.dumps({
-            "step": self.step, "states": mothership_states,
+            "positions": [
+                [round(c.position[0], 3), round(c.position[1], 3), 0.0]
+                for c in self.clusters
+            ],
+            "velocities": [
+                [round(c.velocity[0], 3), round(c.velocity[1], 3), 0.0]
+                for c in self.clusters
+            ],
         }) + "\n")
 
-        if self.step % 5 == 0 or self.step == 1:
-            joined = " | ".join(mothership_states)
+        # Per-cluster intents (the new schema).
+        self._open_jsonl("cluster_intents.jsonl").write(json.dumps({
+            "step": self.step,
+            "intents": [
+                {
+                    "id": c.id,
+                    "ideal_coord": [round(it["ideal_coord"][0], 3),
+                                    round(it["ideal_coord"][1], 3)],
+                    "urgency": round(it["urgency"], 4),
+                    "hostility": round(it["hostility"], 4),
+                    "reasoning": (it.get("reasoning") or "")[:200],
+                }
+                for c, it in zip(self.clusters, all_intents)
+            ],
+        }) + "\n")
+
+        # Mother + scripted layer.
+        interior = self.mother.interior
+        forced_state, forced_modifier = (None, None)
+        if self.scripted:
+            forced_state, forced_modifier = self._scripted_step(self.step)
+        self._open_jsonl("mother_state.jsonl").write(json.dumps({
+            "step": self.step,
+            "broadcast": broadcast,
+            "felt_state": interior.state if interior else None,
+            "attention": interior.attention if interior else None,
+            "energy": round(interior.energy, 3) if interior else None,
+            "perception_modifier": interior.perception_modifier if interior else None,
+            "scripted_forced_state": forced_state,
+            "scripted_forced_modifier": forced_modifier,
+        }) + "\n")
+
+        # Attackers.
+        self._open_jsonl("attackers.jsonl").write(json.dumps({
+            "step": self.step,
+            "attackers": [
+                {
+                    "name": a.name,
+                    "active": a.active,
+                    "position": [round(a.position[0], 3),
+                                 round(a.position[1], 3), 0.0],
+                    "revealed": a.name in self._revealed,
+                }
+                for a in self.attackers
+            ],
+        }) + "\n")
+
+        if self.step == 1 or self.step % 5 == 0 or len(revealed_attackers) > 0:
+            r = ",".join(name for name, _ in revealed_attackers) or "—"
             logger.info(
-                f"Step {self.step}/{self.duration} | cov={cov:.2f} std={std_c:.2f} "
-                f"coh={coh:.2f} | {joined}"
+                f"step {self.step:>3}/{self.duration} | "
+                f"d={mean_d:5.2f} urg={mean_u:.2f} host={mean_h:+.2f} | "
+                f"revealed=[{r}] | {broadcast[:90]}"
             )
 
-    # ---------- finalization ----------
+    # ---------- finalize ----------
     def finalize_metrics(self) -> Dict:
-        with open(os.path.join(self.output_dir, "shield_coverage.csv"), "w", newline="") as f:
-            w = csv.writer(f)
-            w.writerow(["step", "shield_coverage"])
-            for i, c in enumerate(self.metrics["shield_coverage"], start=1):
-                w.writerow([i, f"{c:.4f}"])
-
-        with open(os.path.join(self.output_dir, "angular_distribution.csv"), "w", newline="") as f:
-            w = csv.writer(f)
-            w.writerow(["step"] + [f"sector_{i}" for i in range(8)])
-            for i, counts in enumerate(self.metrics["sector_counts"], start=1):
-                w.writerow([i] + list(counts))
-
-        threat_starts = [t.start_step for t in self.threats]
-        first_threat_start = min(threat_starts) if threat_starts else self.duration
-        rt = response_time(self.metrics["shield_coverage"], first_threat_start)
-
-        cov_series = self.metrics["shield_coverage"]
+        n = max(1, len(self.metrics["mean_distance"]))
         summary = {
             "scenario": self.scenario_name,
-            "action_mode": self.action_mode,
-            "identity": self.identity,
-            "spawn_mode": self.spawn_mode,
-            "spawn_radius": self.spawn_radius,
-            "seed": self.seed,
             "duration": self.duration,
-            "particle_count": self.particle_count,
-            "mothership_count": len(self.motherships),
-            "threat_count": len(self.threats),
-            "first_threat_start_step": first_threat_start,
-            "breach_step": self.metrics["breach_step"],
-            "breached": self.metrics["breach_step"] is not None,
-            "response_time_steps": rt,
-            "max_shield_coverage": max(cov_series) if cov_series else 0.0,
-            "avg_shield_coverage_post_threat": (
-                sum(cov_series[first_threat_start - 1:]) / max(1, len(cov_series[first_threat_start - 1:]))
-            ),
-            "avg_cohesion": sum(self.metrics["cohesion"]) / max(1, len(self.metrics["cohesion"])),
-            "final_intent_distribution": self.metrics["intent_dist"][-1] if self.metrics["intent_dist"] else {},
+            "cluster_count": self.cluster_count,
+            "seed": self.seed,
+            "dna_variant": self.dna_variant,
+            "mother_variant": self.mother_variant,
+            "role_noun": self.role_noun,
+            "role_nouns_list": self.role_nouns_list,
+            "say_prefix": self.say_prefix,
+            "awareness_range": self.awareness_range,
+            "mean_distance_overall": sum(self.metrics["mean_distance"]) / n,
+            "mean_urgency_overall": sum(self.metrics["mean_urgency"]) / n,
+            "mean_hostility_overall": sum(self.metrics["mean_hostility"]) / n,
+            "attackers_revealed_at_end": list(self._revealed),
         }
-
         with open(os.path.join(self.output_dir, "collective_metrics.json"), "w") as f:
             json.dump(summary, f, indent=2)
-
         return summary

@@ -1,0 +1,16 @@
+{
+  "scenario": "scripted_70",
+  "duration": 70,
+  "cluster_count": 20,
+  "seed": 42,
+  "dna_variant": "VC",
+  "mother_variant": "M5",
+  "role_noun": "guardian",
+  "mean_distance_overall": 11.225424423340986,
+  "mean_urgency_overall": 0.9832928571428572,
+  "mean_hostility_overall": 0.01442857142857143,
+  "attackers_revealed_at_end": [
+    "north",
+    "east"
+  ]
+}
