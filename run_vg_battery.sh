@@ -6,7 +6,7 @@
 set -u
 cd "$(dirname "$0")"
 REPO_DIR="$(pwd)"
-VIEWER_DIR="/Users/yukitakashima/Desktop/PUBLISH/Gaara_Animism_Viewer"
+VIEWER_DIR="${VIEWER_DIR:-../Gaara_Animism_Viewer}"
 LOG_FILE="$REPO_DIR/RUNS_LOG.md"
 ORCH_LOG="$REPO_DIR/orchestrator.log"
 

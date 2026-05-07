@@ -2,13 +2,11 @@
 
 > 二十の粒子が、命令を一切受けずに、中心の身体（マザーシップ）を自然に守る。彼らが読んでいるのは、命令ではなく「からだの言葉（ボディ・ランゲージ）」です。
 
-このリポジトリは、提出した動画とPDF仕様書の**裏付け**にあたります。動画と仕様書を見ていただいたあと、「本当に再現できるのか」「主張に証拠が伴っているのか」を確かめたい方のための場所です。コンセプトの紹介ではなく、検証のための層として置いてあります。
-
 ---
 
 ## 一段落でいうと
 
-LLMが「解釈できるかどうか」という問いは、答えが二択になりすぎて、研究としては前に進みません。私たちが扱う問いはもう一段先にあります。**LLMの周囲にどのような関係的アーキテクチャを組めば、それが命令の実行ではなく「解釈」として立ち上がるのか** — その境界を、再現可能な実験で測りにいくことを目的にしています。
+私たちが扱う問いは、**LLMの周囲にどのような関係的アーキテクチャを組めば、それが命令の実行ではなく「解釈」として立ち上がるのか** — その境界を、再現可能な実験で測りにいくことを目的にしています。
 
 各粒子は毎ステップ、自分が「なぜそう動いたか」を一文で出力します。この一文を分類すれば、群れが本当に解釈しているのか、ただ命令の言い換えを並べているのかを、第三者でも判定できます。これがこの研究の falsifiability(反証可能性) の核です。
 
@@ -33,12 +31,13 @@ python3 score_diversity.py saved_simulations/scripted_70/<run>
 # 各実行の指標(迎撃率、認識フリップ前の方向反応、など)を再生成
 python3 analyze_run.py saved_simulations/scripted_70/<run>
 
+# 保存済みの run を2Dで可視化する(matplotlib が必要)
+python3 view_run.py saved_simulations/scripted_70/<run>
+
 # 任意の実験を自分で走らせる(Ollama + qwen2.5:7b が必要)
 python3 main.py --scenario scripted_70 --duration 70 --seed 42 \
   --dna-variant VC --mother-variant M5 --role-noun sentinel --label replication
 ```
-
-主張と証拠ファイルの対応表は、下の英語版にあります。すべて run ディレクトリへの直接パスです。誰でも、どの実行も、その場で開いて確認できます。
 
 ---
 
@@ -47,7 +46,7 @@ python3 main.py --scenario scripted_70 --duration 70 --seed 42 \
 - モデル：`qwen2.5:7b`(Ollama 経由)、temperature 0.7
 - シード：42 / 101 / 202(複数シードで再現性を確認)
 - すべてのスイープはコマンドラインで再走可能。各 run は `config_snapshot.yaml` を保持しています
-- 監査面：各粒子の `reasoning` フィールド。`score_diversity.py` のキーワードルールで分類。第三者がどの実行のどの reasoning でも、再分類して結果に異議を申し立てられます
+- 監査面：各粒子の `reasoning` フィールド。`score_diversity.py` のキーワードルールで分類
 
 ---
 
@@ -87,6 +86,9 @@ python3 score_diversity.py saved_simulations/scripted_70/20260505_200135_noun_se
 # Reproduce the per-run analysis (interception, pre-flip x, awareness flips)
 python3 analyze_run.py saved_simulations/scripted_70/20260505_200135_noun_sentinel_VC_M5_s42
 
+# 2D visual playback of any saved run (requires matplotlib)
+python3 view_run.py saved_simulations/scripted_70/20260505_200135_noun_sentinel_VC_M5_s42
+
 # Re-run any experiment yourself (requires Ollama + qwen2.5:7b locally)
 python3 main.py --scenario scripted_70 --duration 70 --seed 42 \
   --dna-variant VC --mother-variant M5 --role-noun sentinel --label replication
@@ -121,6 +123,7 @@ physics.py               — intent-to-motion translator. The LLM never touches
 analyze_run.py           — per-run analysis (interception, pre-flip x, etc.).
 score_diversity.py       — functional-diversity scorer for the reasoning audit.
 summarize_exp_batch.py   — exp_* batch ranked-table generator.
+view_run.py              — lightweight 2D matplotlib viewer for any saved run.
 
 saved_simulations/       — every run's full logs, organized by scenario.
 config.yaml              — physics constants, scenario definitions, LLM settings.
