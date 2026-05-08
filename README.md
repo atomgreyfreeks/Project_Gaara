@@ -4,6 +4,14 @@
 
 ---
 
+## VIEWER
+
+ブラウザで開けるビューワーを別途用意しています。インストール不要、クリックして眺めるだけです。
+
+→ https://gaara-mission-control.vercel.app
+
+---
+
 ## 一段落でいうと
 
 私たちが扱う問いは、**LLMの周囲にどのような関係的アーキテクチャを組めば、それが命令の実行ではなく「解釈」として立ち上がるのか** — その境界を、再現可能な実験で測りにいくことを目的にしています。
@@ -59,6 +67,12 @@ python3 main.py --scenario scripted_70 --duration 70 --seed 42 \
 > Twenty LLM-driven particles emergently protect a central body — through interpretation of body-language, never through commands.
 
 This repository is the **raw evidence layer** behind the demo video and the PDF specs. If you've already watched the video and read the spec, this is where you go to check that the work is empirically real.
+
+---
+
+## Viewer (optional)
+
+A browser-based viewer lives at **https://gaara-mission-control.vercel.app**. No install — just click.
 
 ---
 
@@ -128,8 +142,6 @@ view_run.py              — lightweight 2D matplotlib viewer for any saved run.
 saved_simulations/       — every run's full logs, organized by scenario.
 config.yaml              — physics constants, scenario definitions, LLM settings.
 ```
-
-A companion 3D viewer lives at `../Gaara_Animism_Viewer/` (clone separately).
 
 ---
 
